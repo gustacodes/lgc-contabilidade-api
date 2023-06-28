@@ -3,10 +3,10 @@ package com.lgc.contabilidade.entities;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Date;
 
 @Entity
 @Getter
@@ -17,7 +17,8 @@ public class Calculo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Date data;
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    private LocalDate data;
     private LocalTime entrada;
     private LocalTime saidaAlmoco;
     private LocalTime voltaAlmoco;

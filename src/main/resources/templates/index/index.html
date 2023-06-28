@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cálculo de Horas</title>
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+
+    <form th:action="@{/calculo}" th:object="${novoCalculo}" method="post">
+        <div class="datetime-select">
+            <input type="date" name="data" id="date-input">
+            <input type="time" name="entrada" id="time-input">
+            <input type="time" name="saidaAlmoco" id="time-input">
+            <input type="time" name="voltaAlmoco" id="time-input">
+            <input type="time" name="saidaCasa" id="time-input"><br>
+
+        </div>
+        <div class="datetime-select">
+            <button type="submit">REGISTRAR</button>
+        </div>
+    </form>
+    <table class="content-table">
+        
+        <thead>
+            
+          <tr>
+            <th>Data</th>
+            <th>Entrada</th>
+            <th>Saída/Almoço</th>
+            <th>Volta/Almoço</th>
+            <th>Saída</th>
+          </tr>
+        </thead>
+        
+        <tbody>
+          <tr th:each="calculo : ${calculo}">
+            <td th:text="${calculo.data}"></td>
+            <td th:text="${calculo.entrada}"></td>
+            <td th:text="${calculo.saidaAlmoco}"></td>
+            <td th:text="${calculo.voltaAlmoco}"></td>
+            <td th:text="${calculo.saidaCasa}"></td>
+          </tr>
+        </tbody>
+    </table>
+
+    
+</body>
+</html>
