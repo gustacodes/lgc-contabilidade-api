@@ -1,6 +1,8 @@
 package com.lgc.contabilidade.controller;
 
 import com.lgc.contabilidade.entities.Calculo;
+import com.lgc.contabilidade.services.CalculoService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -15,6 +17,8 @@ import java.util.List;
 @RequestMapping("/calculo")
 public class CalculoController {
 
+    @Autowired
+    private CalculoService cs;
     private List<Calculo> calculos = new ArrayList<>();
 
     @GetMapping
@@ -28,9 +32,9 @@ public class CalculoController {
 
     @PostMapping
     public ModelAndView registro(@ModelAttribute("novoCalculo") Calculo calculo) {
+        cs.registro(calculo);
         calculos.add(calculo);
         return new ModelAndView("redirect:/calculo");
     }
-
 
 }
