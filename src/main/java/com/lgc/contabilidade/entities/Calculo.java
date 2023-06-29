@@ -24,5 +24,6 @@ public class Calculo {
     private String saidaCasa;
     private String horasTotais;
     private String extras;
+    private String total;
 
 }

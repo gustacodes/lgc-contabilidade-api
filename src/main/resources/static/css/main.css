@@ -4,6 +4,11 @@ body {
     background-color: #1e1e1e;
 }
 
+img {
+    width: 25px;
+    height: 25px;
+}
+
 span {
     margin-left: 650px;
     color: #ffffff;
@@ -56,6 +61,7 @@ button:hover {
 
 .content-table th,
 .content-table td {
+text-align: center;
     color: #ffffff;
     padding: 12px 15px;
 }

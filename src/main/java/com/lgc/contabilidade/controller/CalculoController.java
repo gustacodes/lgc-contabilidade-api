@@ -33,6 +33,7 @@ public class CalculoController {
     @PostMapping
     public ModelAndView registro(@ModelAttribute("novoCalculo") Calculo calculo) {
         calculos.add(cs.registro(calculo));
+
         return new ModelAndView("redirect:/calculo");
     }
 

@@ -5,29 +5,38 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cálculo de Horas</title>
-    <link rel="stylesheet" href="/static/css/main.css">
+    <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
-
     <table class="content-table">
-        
         <thead>
-            
-          <tr>
-            <th>Data</th>
-            <th>Entrada</th>
-            <th>Saída/Almoço</th>
-            <th>Volta/Almoço</th>
-            <th>Saída</th>
-            <th>Total/Dia</th>
-            <th>Extras</th>
-            <th>Ação</th>
-          </tr>
+
+        <form th:action="@{/calculo}" th:object="${novoCalculo}" method="post">
+
+            <tr>
+
+                <th class="datetime-select">Data <br><input type="date" name="data" id="date-input"></th>
+                <th class="datetime-select">Entrada <br><input type="time" name="entrada" id="time-input"></th>
+                <th class="datetime-select">Saída/Almoço <br><input type="time" name="saidaAlmoco" id="time-input"></th>
+                <th class="datetime-select">Volta/Almoço <br><input type="time" name="voltaAlmoco" id="time-input"></th>
+                <th class="datetime-select">Saída <br><input type="time" name="saidaCasa" id="time-input"><br></th>
+               
+            </tr>
+
+            <div class="datetime-select">
+                <button type="submit">REGISTRAR</button>
+            </div>
+        </form>
+
         </thead>
         
         <tbody>
+        <tr th:if="${#lists.isEmpty(calculo)}">
+            <td colspan="8">Nenhum registro.</td>
+        </tr>
+
           <tr th:each="calculo : ${calculo}">
-            <td th:text="${calculo.data}">05/03/1992</td>
+            <td th:text="${calculo.data}"></td>
             <td th:text="${calculo.entrada}"></td>
             <td th:text="${calculo.saidaAlmoco}"></td>
             <td th:text="${calculo.voltaAlmoco}"></td>
@@ -39,26 +48,10 @@
               <div th:unless="${#strings.contains(calculo.extras, '-')}">
                   <td th:text="${calculo.extras}" style="background-color: #3CB371"></td>
               </div>
-              <td><img src=""></td>
+              <td><img src="/img/remover.png"></td>
           </tr>
            </tbody>
     </table>
-    <span><b>Total:</b></span>
-    <form th:action="@{/calculo}" th:object="${novoCalculo}" method="post">
-        <div class="datetime-select">
-            <input type="date" name="data" id="date-input">
-            <input type="time" name="entrada" id="time-input">
-            <input type="time" name="saidaAlmoco" id="time-input">
-            <input type="time" name="voltaAlmoco" id="time-input">
-            <input type="time" name="saidaCasa" id="time-input"><br>
-
-        </div>
-
-        <div class="datetime-select">
-            <button type="submit">REGISTRAR</button>
-        </div>
-    </form>
-
 
 </body>
 </html>

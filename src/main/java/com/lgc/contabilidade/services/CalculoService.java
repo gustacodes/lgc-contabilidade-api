@@ -19,6 +19,7 @@ public class CalculoService {
     public Calculo registro(Calculo calculo) {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+
         LocalTime entrada = LocalTime.parse(calculo.getEntrada(), formatter);
         LocalTime saidaAlmoco = LocalTime.parse(calculo.getSaidaAlmoco(), formatter);
         LocalTime voltaAlmoco = LocalTime.parse(calculo.getVoltaAlmoco(), formatter);
@@ -31,7 +32,7 @@ public class CalculoService {
         long totalHoras = total.toHours();
         long totalMinutos = total.toMinutes() % 60;
 
-        String extras = "";
+        String extras = "", somatorio = "";
 
         if(totalHoras < 8){
 
@@ -46,6 +47,7 @@ public class CalculoService {
 
             totalHoras -= 8;
             LocalTime localTime = LocalTime.of((int) totalHoras, (int) totalMinutos);
+            calculo.setTotal(somatorio);
             extras = localTime.format(formatter);
             calculo.setExtras(extras);
 
