@@ -1,6 +1,12 @@
-* {
+body {
     /* Change your font family */
     font-family: sans-serif;
+    background-color: #1e1e1e;
+}
+
+span {
+    margin-left: 650px;
+    color: #ffffff;
 }
 
 .datetime-select {
@@ -20,7 +26,7 @@
     min-width: 400px;
     border-radius: 5px 5px 0 0;
     overflow: hidden;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);    
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.30);
 }
 
 button {
@@ -42,7 +48,7 @@ button:hover {
 }
 
 .content-table thead tr {
-    background-color: #009879;
+    background-color: #181818;
     color: #ffffff;
     text-align: left;
     font-weight: bold;
@@ -50,6 +56,7 @@ button:hover {
 
 .content-table th,
 .content-table td {
+    color: #ffffff;
     padding: 12px 15px;
 }
 
@@ -58,7 +65,7 @@ button:hover {
 }
 
 .content-table tbody tr:nth-of-type(even) {
-    background-color: #f3f3f3;
+    background-color: #181818;
 }
 
 .content-table tbody tr:last-of-type {

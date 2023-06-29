@@ -5,23 +5,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cálculo de Horas</title>
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="/static/css/main.css">
 </head>
 <body>
 
-    <form th:action="@{/calculo}" th:object="${novoCalculo}" method="post">
-        <div class="datetime-select">
-            <input type="date" name="data" id="date-input">
-            <input type="time" name="entrada" id="time-input">
-            <input type="time" name="saidaAlmoco" id="time-input">
-            <input type="time" name="voltaAlmoco" id="time-input">
-            <input type="time" name="saidaCasa" id="time-input"><br>
-
-        </div>
-        <div class="datetime-select">
-            <button type="submit">REGISTRAR</button>
-        </div>
-    </form>
     <table class="content-table">
         
         <thead>
@@ -32,24 +19,46 @@
             <th>Saída/Almoço</th>
             <th>Volta/Almoço</th>
             <th>Saída</th>
-            <th>Total</th>
+            <th>Total/Dia</th>
             <th>Extras</th>
+            <th>Ação</th>
           </tr>
         </thead>
         
         <tbody>
           <tr th:each="calculo : ${calculo}">
-            <td th:text="${calculo.data}"></td>
+            <td th:text="${calculo.data}">05/03/1992</td>
             <td th:text="${calculo.entrada}"></td>
             <td th:text="${calculo.saidaAlmoco}"></td>
             <td th:text="${calculo.voltaAlmoco}"></td>
             <td th:text="${calculo.saidaCasa}"></td>
             <td th:text="${calculo.horasTotais}"></td>
-            <td th:text="${calculo.extras}"></td>
+              <div th:if="${#strings.contains(calculo.extras, '-')}">
+                 <td th:text="${calculo.extras}" style="background-color: #B22222"></td>
+              </div>
+              <div th:unless="${#strings.contains(calculo.extras, '-')}">
+                  <td th:text="${calculo.extras}" style="background-color: #3CB371"></td>
+              </div>
+              <td><img src=""></td>
           </tr>
-        </tbody>
+           </tbody>
     </table>
+    <span><b>Total:</b></span>
+    <form th:action="@{/calculo}" th:object="${novoCalculo}" method="post">
+        <div class="datetime-select">
+            <input type="date" name="data" id="date-input">
+            <input type="time" name="entrada" id="time-input">
+            <input type="time" name="saidaAlmoco" id="time-input">
+            <input type="time" name="voltaAlmoco" id="time-input">
+            <input type="time" name="saidaCasa" id="time-input"><br>
 
-    
+        </div>
+
+        <div class="datetime-select">
+            <button type="submit">REGISTRAR</button>
+        </div>
+    </form>
+
+
 </body>
 </html>
