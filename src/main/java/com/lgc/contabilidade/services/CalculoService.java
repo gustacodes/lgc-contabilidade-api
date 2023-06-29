@@ -31,18 +31,32 @@ public class CalculoService {
         long totalHoras = total.toHours();
         long totalMinutos = total.toMinutes() % 60;
 
-        if (totalHoras > 8) {
+        String extras = "";
+
+        if(totalHoras < 8){
+
+            totalHoras = 0;
+            totalMinutos -= 60;
+            long positivo = Math.abs(totalMinutos);
+            LocalTime localTime = LocalTime.of((int) totalHoras, (int) positivo);
+            extras = localTime.format(formatter);
+            calculo.setExtras("- " + extras);
+
+        } else if (totalHoras >= 8) {
+
             totalHoras -= 8;
+            LocalTime localTime = LocalTime.of((int) totalHoras, (int) totalMinutos);
+            extras = localTime.format(formatter);
+            calculo.setExtras(extras);
+
         } else {
             totalHoras = 0;
         }
 
-        LocalTime localTime = LocalTime.of((int) totalHoras, (int) totalMinutos);
         LocalTime totalH = LocalTime.of((int) total.toHours(), (int) total.toMinutes() % 60);
-        String extras = localTime.format(formatter);
+
         String totalHo = totalH.format(formatter);
         calculo.setHorasTotais(totalHo);
-        calculo.setExtras(extras);
 
         return calculo;
     }
