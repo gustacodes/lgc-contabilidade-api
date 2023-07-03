@@ -20,7 +20,10 @@
                 <th class="datetime-select">Saída/Almoço <br><input type="time" name="saidaAlmoco" id="time-input"></th>
                 <th class="datetime-select">Volta/Almoço <br><input type="time" name="voltaAlmoco" id="time-input"></th>
                 <th class="datetime-select">Saída <br><input type="time" name="saidaCasa" id="time-input"><br></th>
-               
+                <th>Total</th>
+                <th>Extras</th>
+                <th>Ação</th>
+
             </tr>
 
             <div class="datetime-select">
@@ -48,7 +51,13 @@
               <div th:unless="${#strings.contains(calculo.extras, '-')}">
                   <td th:text="${calculo.extras}" style="background-color: #3CB371"></td>
               </div>
-              <td><img src="/img/remover.png"></td>
+              <td><form th:action="@{/calculo/{id}(id=${calculo.id})}" th:method="delete">
+                  <input type="hidden" name="_method" value="delete" />
+                  <button type="submit" id="submitButton" style="border: none; background: none; padding: 0;">
+                      <img src="/img/remover.png" alt="Deletar" />
+                  </button>
+              </form>
+              </td>
           </tr>
            </tbody>
     </table>

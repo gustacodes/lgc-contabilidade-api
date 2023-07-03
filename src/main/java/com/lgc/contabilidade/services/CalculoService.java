@@ -16,6 +16,10 @@ public class CalculoService {
     @Autowired
     private CalculoRepository cr;
 
+    public Iterable<Calculo> findAll() {
+        return cr.findAll();
+    }
+
     public Calculo registro(Calculo calculo) {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
@@ -59,8 +63,12 @@ public class CalculoService {
 
         String totalHo = totalH.format(formatter);
         calculo.setHorasTotais(totalHo);
-
+        cr.save(calculo);
         return calculo;
+    }
+
+    public void delete(Long id) {
+        cr.deleteById(id);
     }
 
 }

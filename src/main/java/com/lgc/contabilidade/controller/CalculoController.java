@@ -4,11 +4,9 @@ import com.lgc.contabilidade.entities.Calculo;
 import com.lgc.contabilidade.services.CalculoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,10 +20,10 @@ public class CalculoController {
     private List<Calculo> calculos = new ArrayList<>();
 
     @GetMapping
-    public ModelAndView index() {
+    public ModelAndView findAll() {
+        Iterable<Calculo> calculos = cs.findAll();
         ModelAndView mv = new ModelAndView("index/index");
         mv.addObject("calculo", calculos);
-        mv.addObject("novoCalculo", new Calculo());
 
         return mv;
     }
@@ -33,8 +31,13 @@ public class CalculoController {
     @PostMapping
     public ModelAndView registro(@ModelAttribute("novoCalculo") Calculo calculo) {
         calculos.add(cs.registro(calculo));
-
         return new ModelAndView("redirect:/calculo");
+    }
+
+    @DeleteMapping("/{id}")
+    public RedirectView deletar(@PathVariable Long id) {
+        cs.delete(id);
+        return new RedirectView("/calculo");
     }
 
 }
