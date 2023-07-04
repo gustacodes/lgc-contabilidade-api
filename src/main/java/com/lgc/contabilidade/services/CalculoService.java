@@ -10,6 +10,8 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAmount;
 
+import static com.lgc.contabilidade.entities.Calculo.hour;
+
 @Service
 public class CalculoService {
 
@@ -42,8 +44,11 @@ public class CalculoService {
 
             totalHoras = 0;
             totalMinutos -= 60;
+            Calculo.minute += (int) totalMinutos;
+            Calculo.hour -= (int) totalHoras;
             long positivo = Math.abs(totalMinutos);
-            LocalTime localTime = LocalTime.of((int) totalHoras, (int) positivo);
+            long positivoHoras = Math.abs(totalHoras);
+            LocalTime localTime = LocalTime.of((int) positivoHoras, (int) positivo);
             extras = localTime.format(formatter);
             calculo.setExtras("- " + extras);
 
@@ -51,6 +56,18 @@ public class CalculoService {
 
             totalHoras -= 8;
             LocalTime localTime = LocalTime.of((int) totalHoras, (int) totalMinutos);
+            Duration duration = Duration.between(LocalTime.MIDNIGHT, localTime);
+
+            LocalTime lt = LocalTime.MIDNIGHT.plus(duration);
+
+            Calculo.hour += lt.getHour();
+            Calculo.minute += lt.getMinute();
+
+            if(Calculo.minute >= 60) {
+                Calculo.minute -= 60;
+                hour += 1;
+            }
+
             calculo.setTotal(somatorio);
             extras = localTime.format(formatter);
             calculo.setExtras(extras);
