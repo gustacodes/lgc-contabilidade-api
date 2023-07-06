@@ -4,7 +4,6 @@ import com.lgc.contabilidade.entities.Calculo;
 import com.lgc.contabilidade.services.CalculoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
@@ -24,8 +23,8 @@ public class CalculoController {
     public ModelAndView findAll() {
         Iterable<Calculo> calculos = cs.findAll();
         ModelAndView mv = new ModelAndView("index/index");
-        mv.addObject("totalHora", Calculo.hour);
-        mv.addObject("totalMinuto", Calculo.minute);
+        mv.addObject("totalHora", Calculo.horaExtra);
+        mv.addObject("totalMinuto", Calculo.minutoExtra);
         mv.addObject("calculo", calculos);
 
         return mv;

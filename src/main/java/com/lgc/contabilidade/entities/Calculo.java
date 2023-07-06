@@ -9,6 +9,7 @@ import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Entity
 @Getter
@@ -34,7 +35,7 @@ public class Calculo {
     private String horasTotais;
     private String extras;
     private String total;
-    public static int hour;
-    public static int minute;
+    public static int horaExtra;
+    public static int minutoExtra;
 
 }

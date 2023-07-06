@@ -3,14 +3,12 @@ package com.lgc.contabilidade.services;
 import com.lgc.contabilidade.entities.Calculo;
 import com.lgc.contabilidade.repositories.CalculoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.TemporalAmount;
-
-import static com.lgc.contabilidade.entities.Calculo.hour;
 
 @Service
 public class CalculoService {
@@ -40,12 +38,17 @@ public class CalculoService {
 
         String extras = "", somatorio = "";
 
-        if(totalHoras < 8){
+        if (totalHoras < 8) {
 
             totalHoras = 0;
             totalMinutos -= 60;
-            Calculo.minute += (int) totalMinutos;
-            Calculo.hour -= (int) totalHoras;
+            Calculo.minutoExtra += (int) totalMinutos;
+
+            if(Calculo.minutoExtra < 0) {
+                int teste = Math.abs(Calculo.minutoExtra);
+                Calculo.minutoExtra = 60 - teste;
+            }
+            Calculo.horaExtra = (int) totalHoras;
             long positivo = Math.abs(totalMinutos);
             long positivoHoras = Math.abs(totalHoras);
             LocalTime localTime = LocalTime.of((int) positivoHoras, (int) positivo);
@@ -60,12 +63,22 @@ public class CalculoService {
 
             LocalTime lt = LocalTime.MIDNIGHT.plus(duration);
 
-            Calculo.hour += lt.getHour();
-            Calculo.minute += lt.getMinute();
+            Calculo.horaExtra += lt.getHour();
+            Calculo.minutoExtra += lt.getMinute();
 
-            if(Calculo.minute >= 60) {
-                Calculo.minute -= 60;
-                hour += 1;
+            if(Calculo.minutoExtra >= 60) {
+                Calculo.minutoExtra -= 60;
+                Calculo.horaExtra += 1;
+            }
+
+            if(Calculo.horaExtra > 8) {
+                Calculo.horaExtra += Calculo.horaExtra - 8;
+                Calculo.minutoExtra += Calculo.minutoExtra - 60;
+            }
+
+            if(Calculo.minutoExtra < 0) {
+                Calculo.minutoExtra += 60;
+                Calculo.horaExtra -= 1;
             }
 
             calculo.setTotal(somatorio);
