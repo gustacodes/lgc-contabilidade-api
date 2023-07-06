@@ -21,7 +21,9 @@ public class CalculoController {
 
     @GetMapping
     public ModelAndView findAll() {
+
         Iterable<Calculo> calculos = cs.findAll();
+
         ModelAndView mv = new ModelAndView("index/index");
         mv.addObject("totalHora", Calculo.horaExtra);
         mv.addObject("totalMinuto", Calculo.minutoExtra);
