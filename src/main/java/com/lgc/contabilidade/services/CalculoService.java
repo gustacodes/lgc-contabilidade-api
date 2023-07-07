@@ -35,29 +35,13 @@ public class CalculoService {
         Duration segundoIntervalo = Duration.between(voltaAlmoco, saidaCasa);
         Duration total = primeiroIntervalo.plus(segundoIntervalo);
 
-        String extras = "", somatorio = "";
+        String extras = "";
 
         long totalHoras = total.toHours();
         long totalMinutos = total.toMinutes() % 60;
+        long auxi = 0;
 
         if (totalHoras < 8) {
-
-            if(totalHoras == 7) {
-                totalHoras = 1;
-            }
-
-            while(totalHoras < 7) {
-                totalMinutos++;
-                if(totalMinutos == 60) {
-                    totalHoras++;
-                    totalMinutos -= 60;
-                    if (totalHoras == 7){
-                        break;
-                    }
-                }
-            }
-
-            System.out.println(totalHoras + ":" + totalMinutos);
 
             totalMinutos -= 60;
             Calculo.minutoExtra += (int) totalMinutos;
@@ -72,15 +56,18 @@ public class CalculoService {
             long positivoHoras = Math.abs(totalHoras);
 
             if (positivoMinutos > 59) {
-                positivoHoras += positivoMinutos / 60;
                 positivoMinutos %= 60;
+            }
+
+            if(Calculo.horaExtra < 0) {
+                Calculo.horaExtra = 0;
             }
 
             LocalTime localTime = LocalTime.of((int) positivoHoras, (int) positivoMinutos);
             extras = localTime.format(formatter);
             calculo.setExtras("- " + extras);
 
-        } else if (totalHoras >= 8) {
+        } else if (totalHoras > 8) {
 
             positivo = false;
 
@@ -108,7 +95,6 @@ public class CalculoService {
                 Calculo.horaExtra -= 1;
             }
 
-            calculo.setTotal(somatorio);
             extras = localTime.format(formatter);
             calculo.setExtras(extras);
 
