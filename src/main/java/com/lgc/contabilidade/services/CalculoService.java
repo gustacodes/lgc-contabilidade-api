@@ -16,6 +16,8 @@ public class CalculoService {
     @Autowired
     private CalculoRepository cr;
 
+    private static boolean positivo = true;
+
     public Iterable<Calculo> findAll() {
         return cr.findAll();
     }
@@ -40,11 +42,27 @@ public class CalculoService {
 
         if (totalHoras < 8) {
 
-            totalHoras = 0;
+            if(totalHoras == 7) {
+                totalHoras = 1;
+            }
+
+            while(totalHoras < 7) {
+                totalMinutos++;
+                if(totalMinutos == 60) {
+                    totalHoras++;
+                    totalMinutos -= 60;
+                    if (totalHoras == 7){
+                        break;
+                    }
+                }
+            }
+
+            System.out.println(totalHoras + ":" + totalMinutos);
+
             totalMinutos -= 60;
             Calculo.minutoExtra += (int) totalMinutos;
 
-            if(Calculo.minutoExtra < 0) {
+            if(Calculo.minutoExtra < 0 && positivo == false) {
                 int aux = Math.abs(Calculo.minutoExtra);
                 Calculo.minutoExtra = 60 - aux;
             }
@@ -54,8 +72,8 @@ public class CalculoService {
             long positivoHoras = Math.abs(totalHoras);
 
             if (positivoMinutos > 59) {
-                positivoHoras += positivoMinutos / 60;  // Incrementar as horas correspondentes
-                positivoMinutos %= 60;  // Ajustar os minutos para o valor correto
+                positivoHoras += positivoMinutos / 60;
+                positivoMinutos %= 60;
             }
 
             LocalTime localTime = LocalTime.of((int) positivoHoras, (int) positivoMinutos);
@@ -63,6 +81,8 @@ public class CalculoService {
             calculo.setExtras("- " + extras);
 
         } else if (totalHoras >= 8) {
+
+            positivo = false;
 
             totalHoras -= 8;
             LocalTime localTime = LocalTime.of((int) totalHoras, (int) totalMinutos);
