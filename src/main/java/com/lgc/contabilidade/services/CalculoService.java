@@ -39,10 +39,10 @@ public class CalculoService {
 
         long totalHoras = total.toHours();
         long totalMinutos = total.toMinutes() % 60;
-        long auxi = 0;
 
         if (totalHoras < 8) {
 
+            totalHoras = 8 - totalHoras;
             totalMinutos -= 60;
             Calculo.minutoExtra += (int) totalMinutos;
 
@@ -52,6 +52,11 @@ public class CalculoService {
             }
 
             Calculo.horaExtra = (int) totalHoras;
+
+            if(totalHoras > 0) {
+                totalHoras = 0;
+            }
+
             long positivoMinutos = Math.abs(totalMinutos);
             long positivoHoras = Math.abs(totalHoras);
 
@@ -67,7 +72,7 @@ public class CalculoService {
             extras = localTime.format(formatter);
             calculo.setExtras("- " + extras);
 
-        } else if (totalHoras > 8) {
+        } else if (totalHoras >= 8) {
 
             positivo = false;
 
