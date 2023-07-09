@@ -25,8 +25,7 @@ public class CalculoController {
         Iterable<Calculo> calculos = cs.findAll();
 
         ModelAndView mv = new ModelAndView("index/index");
-        mv.addObject("totalHora", Calculo.horaExtra);
-        mv.addObject("totalMinuto", Calculo.minutoExtra);
+        mv.addObject("totalHora", Calculo.localTime);
         mv.addObject("calculo", calculos);
 
         return mv;

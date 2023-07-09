@@ -16,8 +16,6 @@ public class CalculoService {
     @Autowired
     private CalculoRepository cr;
 
-    private static boolean positivo = true;
-
     public Iterable<Calculo> findAll() {
         return cr.findAll();
     }
@@ -35,83 +33,19 @@ public class CalculoService {
         Duration segundoIntervalo = Duration.between(voltaAlmoco, saidaCasa);
         Duration total = primeiroIntervalo.plus(segundoIntervalo);
 
-        String extras = "";
+        long horas = total.toHours();
+        long minutos = total.toMinutes() % 60;
 
-        long totalHoras = total.toHours();
-        long totalMinutos = total.toMinutes() % 60;
+        LocalTime cargaOito = LocalTime.of(8,0);
+        LocalTime horasTotais = LocalTime.of((int) horas, (int) minutos);
 
-        if (totalHoras < 8) {
+        Duration totalExtra = Duration.between(cargaOito, horasTotais);
 
-            totalHoras = 8 - totalHoras;
-            totalMinutos -= 60;
-            Calculo.minutoExtra += (int) totalMinutos;
+        LocalTime localTime = LocalTime.of((int) totalExtra.toHours(),(int) totalExtra.toMinutes() % 60);
+        String extras = localTime.format(formatter);
+        Calculo.localTime = localTime;
 
-            if(Calculo.minutoExtra < 0 && positivo == false) {
-                int aux = Math.abs(Calculo.minutoExtra);
-                Calculo.minutoExtra = 60 - aux;
-            }
-
-            Calculo.horaExtra = (int) totalHoras;
-
-            if(totalHoras > 0) {
-                totalHoras = 0;
-            }
-
-            long positivoMinutos = Math.abs(totalMinutos);
-            long positivoHoras = Math.abs(totalHoras);
-
-            if (positivoMinutos > 59) {
-                positivoMinutos %= 60;
-            }
-
-            if(Calculo.horaExtra < 0) {
-                Calculo.horaExtra = 0;
-            }
-
-            LocalTime localTime = LocalTime.of((int) positivoHoras, (int) positivoMinutos);
-            extras = localTime.format(formatter);
-            calculo.setExtras("- " + extras);
-
-        } else if (totalHoras >= 8) {
-
-            positivo = false;
-
-            totalHoras -= 8;
-            LocalTime localTime = LocalTime.of((int) totalHoras, (int) totalMinutos);
-            Duration duration = Duration.between(LocalTime.MIDNIGHT, localTime);
-
-            LocalTime lt = LocalTime.MIDNIGHT.plus(duration);
-
-            Calculo.horaExtra += lt.getHour();
-            Calculo.minutoExtra += lt.getMinute();
-
-            if(Calculo.minutoExtra >= 60) {
-                Calculo.minutoExtra -= 60;
-                Calculo.horaExtra += 1;
-            }
-
-            if(Calculo.horaExtra > 8) {
-                Calculo.horaExtra += Calculo.horaExtra - 8;
-                Calculo.minutoExtra += Calculo.minutoExtra - 60;
-            }
-
-            if(Calculo.minutoExtra < 0) {
-                Calculo.minutoExtra += 60;
-                Calculo.horaExtra -= 1;
-            }
-
-            extras = localTime.format(formatter);
-            calculo.setExtras(extras);
-
-        } else {
-            totalHoras = 0;
-        }
-
-        LocalTime totalH = LocalTime.of((int) total.toHours(), (int) total.toMinutes() % 60);
-
-        String totalHo = totalH.format(formatter);
-        calculo.setHorasTotais(totalHo);
-        cr.save(calculo);
+        calculo.setExtras(extras);
 
         return calculo;
     }

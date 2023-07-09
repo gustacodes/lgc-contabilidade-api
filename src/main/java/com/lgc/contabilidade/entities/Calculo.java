@@ -35,7 +35,6 @@ public class Calculo {
     private String horasTotais;
     private String extras;
     private String total;
-    public static int horaExtra;
-    public static int minutoExtra;
+    public static LocalTime localTime;
 
 }
