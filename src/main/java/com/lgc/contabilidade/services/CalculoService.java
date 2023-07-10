@@ -16,6 +16,9 @@ public class CalculoService {
     @Autowired
     private CalculoRepository cr;
 
+    Duration horasExtrasAcumuladas = Duration.ZERO;
+
+
     public Iterable<Calculo> findAll() {
         return cr.findAll();
     }
@@ -33,15 +36,21 @@ public class CalculoService {
         Duration segundoIntervalo = Duration.between(voltaAlmoco, saidaCasa);
         Duration total = primeiroIntervalo.plus(segundoIntervalo);
 
-        long horas = total.toHours();
-        long minutos = total.toMinutes() % 60;
+        Duration cargaOito = Duration.ofHours(8);
+        Duration horasTotais = Duration.ofHours(total.toHours()).plusMinutes(total.toMinutes() % 60);
 
-        LocalTime cargaOito = LocalTime.of(8,0);
-        LocalTime horasTotais = LocalTime.of((int) horas, (int) minutos);
+        Duration totalExtra = horasTotais.minus(cargaOito);
 
-        Duration totalExtra = Duration.between(cargaOito, horasTotais);
+        if (horasTotais.toHours() >= 8) {
+            Duration horasExtras = Duration.ofHours( horasTotais.toHours() - 8).plusMinutes(totalExtra.toMinutes() % 60);
+            horasExtrasAcumuladas = horasExtrasAcumuladas.plus(horasExtras);
 
-        LocalTime localTime = LocalTime.of((int) totalExtra.toHours(),(int) totalExtra.toMinutes() % 60);
+        } else if (horasTotais.toHours() < 8) {
+            Duration horasExtras = Duration.ofHours( 0).minusMinutes(totalExtra.toMinutes() % 60);
+            horasExtrasAcumuladas = horasExtrasAcumuladas.minus(horasExtras);
+        }
+
+        LocalTime localTime = LocalTime.of((int) horasExtrasAcumuladas.toHours(),(int) horasExtrasAcumuladas.toMinutesPart());
         String extras = localTime.format(formatter);
         Calculo.localTime = localTime;
 
