@@ -2,6 +2,8 @@ package com.lgc.contabilidade.services;
 
 import com.lgc.contabilidade.entities.Calculo;
 import com.lgc.contabilidade.repositories.CalculoRepository;
+import org.apache.commons.lang3.time.DurationFormatUtils;
+import org.hibernate.validator.internal.util.logging.formatter.DurationFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
@@ -36,25 +38,39 @@ public class CalculoService {
         Duration segundoIntervalo = Duration.between(voltaAlmoco, saidaCasa);
         Duration total = primeiroIntervalo.plus(segundoIntervalo);
 
-        Duration cargaOito = Duration.ofHours(8);
+        Duration cargaHoraria = Duration.ofHours(8);
         Duration horasTotais = Duration.ofHours(total.toHours()).plusMinutes(total.toMinutes() % 60);
+        String format = DurationFormatUtils.formatDuration(horasTotais.toMillis(), "HH:mm");
+        calculo.setHorasTotais(format);
 
-        Duration totalExtra = horasTotais.minus(cargaOito);
+        Duration totalExtra = horasTotais.minus(cargaHoraria);
 
         if (horasTotais.toHours() >= 8) {
-            Duration horasExtras = Duration.ofHours( horasTotais.toHours() - 8).plusMinutes(totalExtra.toMinutes() % 60);
+            Duration horasExtras = Duration.ofHours(horasTotais.toHours() - 8).plusMinutes(totalExtra.toMinutes() % 60);
             horasExtrasAcumuladas = horasExtrasAcumuladas.plus(horasExtras);
+            LocalTime localTime = LocalTime.of((int) horasExtrasAcumuladas.toHours(), horasExtrasAcumuladas.toMinutesPart());
+            String horaExtra = localTime.format(formatter);
+            Calculo.localTime = localTime;
 
-        } else if (horasTotais.toHours() < 8) {
-            Duration horasExtras = Duration.ofHours( 0).minusMinutes(totalExtra.toMinutes() % 60);
-            horasExtrasAcumuladas = horasExtrasAcumuladas.minus(horasExtras);
+            calculo.setExtras(horaExtra);
+            cr.save(calculo);
+
+        } else if (horasTotais.toHours() <= 7) {
+
+            long h = Math.abs(horasTotais.toHours());
+            long m = Math.abs(horasTotais.toMinutes()) % 60;
+
+            long t = 7 - h;
+            long tt = Math.abs(m - 60);
+
+            LocalTime localTime = LocalTime.of((int) t, (int) tt);
+
+            String horaExtra = localTime.format(formatter);
+
+            calculo.setExtras("- " + horaExtra);
+            cr.save(calculo);
         }
 
-        LocalTime localTime = LocalTime.of((int) horasExtrasAcumuladas.toHours(),(int) horasExtrasAcumuladas.toMinutesPart());
-        String extras = localTime.format(formatter);
-        Calculo.localTime = localTime;
-
-        calculo.setExtras(extras);
 
         return calculo;
     }
