@@ -57,13 +57,10 @@ public class CalculoService {
 
         } else if (horasTotais.toHours() <= 7) {
 
-            long h = Math.abs(horasTotais.toHours());
-            long m = Math.abs(horasTotais.toMinutes()) % 60;
+            long horas = Math.abs(horasTotais.toHours()) - 7;
+            long minutos = (horasTotais.toMinutes() % 60) - 60;
 
-            long t = 7 - h;
-            long tt = Math.abs(m - 60);
-
-            LocalTime localTime = LocalTime.of((int) t, (int) tt);
+            LocalTime localTime = LocalTime.of((int) horas, (int) Math.abs(minutos));
 
             String horaExtra = localTime.format(formatter);
 
