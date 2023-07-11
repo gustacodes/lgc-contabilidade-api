@@ -8,15 +8,17 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@RequestMapping("/calculo")
+@RequestMapping("/lgc/calculo")
 public class CalculoController {
 
     @Autowired
     private CalculoService cs;
+
     private List<Calculo> calculos = new ArrayList<>();
 
     @GetMapping
@@ -34,13 +36,13 @@ public class CalculoController {
     @PostMapping
     public ModelAndView registro(@ModelAttribute("novoCalculo") Calculo calculo) {
         calculos.add(cs.registro(calculo));
-        return new ModelAndView("redirect:/calculo");
+        return new ModelAndView("redirect:/lgc/calculo");
     }
 
     @DeleteMapping("/{id}")
     public RedirectView deletar(@PathVariable Long id) {
         cs.delete(id);
-        return new RedirectView("/calculo");
+        return new RedirectView("/lgc/calculo");
     }
 
 }

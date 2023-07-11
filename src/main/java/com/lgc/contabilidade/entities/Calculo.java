@@ -24,7 +24,7 @@ public class Calculo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @DateTimeFormat(pattern = "dd/MM/yyyy")
-    private Date data;
+    private LocalDate data;
     @NotBlank(message = "Entrada obrigatoria")
     private String entrada;
     @NotBlank
