@@ -10,6 +10,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Date;
 
 @Entity
 @Getter
@@ -23,7 +24,7 @@ public class Calculo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @DateTimeFormat(pattern = "dd/MM/yyyy")
-    private LocalDate data;
+    private Date data;
     @NotBlank(message = "Entrada obrigatoria")
     private String entrada;
     @NotBlank

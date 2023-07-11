@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org", xmlns:dates="http://www.thymeleaf.org/extras/dates">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -40,7 +40,7 @@
         </tr>
 
           <tr th:each="calculo : ${calculo}">
-            <td th:text="${calculo.data}"></td>
+            <td th:utext="${#dates.format(calculo.data, 'dd/MM/yyyy')}"></td>
             <td th:text="${calculo.entrada}"></td>
             <td th:text="${calculo.saidaAlmoco}"></td>
             <td th:text="${calculo.voltaAlmoco}"></td>
