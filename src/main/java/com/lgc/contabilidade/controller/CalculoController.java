@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +26,7 @@ public class CalculoController {
         Iterable<Calculo> calculos = cs.findAll();
 
         ModelAndView mv = new ModelAndView("index/index");
-        mv.addObject("totalHora", Calculo.localTime);
+        mv.addObject("totalHora", Calculo.horasExtrasSomadas);
         mv.addObject("calculo", calculos);
 
         return mv;

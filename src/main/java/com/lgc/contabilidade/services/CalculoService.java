@@ -3,9 +3,7 @@ package com.lgc.contabilidade.services;
 import com.lgc.contabilidade.entities.Calculo;
 import com.lgc.contabilidade.repositories.CalculoRepository;
 import org.apache.commons.lang3.time.DurationFormatUtils;
-import org.hibernate.validator.internal.util.logging.formatter.DurationFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -19,7 +17,6 @@ public class CalculoService {
     private CalculoRepository cr;
 
     Duration horasExtrasAcumuladas = Duration.ZERO;
-
 
     public Iterable<Calculo> findAll() {
         return cr.findAll();
@@ -46,28 +43,25 @@ public class CalculoService {
         Duration totalExtra = horasTotais.minus(cargaHoraria);
 
         if (horasTotais.toHours() >= 8) {
+
             Duration horasExtras = Duration.ofHours(horasTotais.toHours() - 8).plusMinutes(totalExtra.toMinutes() % 60);
             horasExtrasAcumuladas = horasExtrasAcumuladas.plus(horasExtras);
-            LocalTime localTime = LocalTime.of((int) horasExtrasAcumuladas.toHours(), horasExtrasAcumuladas.toMinutesPart());
-            String horaExtra = localTime.format(formatter);
-            Calculo.localTime = localTime;
+            String horaExtra = horasExtras.toHours() + ":" + horasExtras.toMinutesPart();
+            Calculo.horasExtrasSomadas = horasExtrasAcumuladas.toHours() + ":" + horasExtrasAcumuladas.toMinutesPart();
 
             calculo.setExtras(horaExtra);
             cr.save(calculo);
 
         } else if (horasTotais.toHours() <= 7) {
 
-            long horas = Math.abs(horasTotais.toHours()) - 7;
-            long minutos = (horasTotais.toMinutes() % 60) - 60;
+            Duration horasExtras = Duration.ofHours(horasTotais.toHours() - 7).minusMinutes(totalExtra.toMinutes() % 60);
+            horasExtrasAcumuladas = horasExtrasAcumuladas.minus(horasExtras);
+            String horaExtra = horasExtras.toHours() + ":" + horasExtras.toMinutesPart();
+            Calculo.horasExtrasSomadas = horasExtrasAcumuladas.toHours() + ":" + horasExtrasAcumuladas.toMinutesPart();
 
-            LocalTime localTime = LocalTime.of((int) horas, (int) Math.abs(minutos));
-
-            String horaExtra = localTime.format(formatter);
-
-            calculo.setExtras("- " + horaExtra);
+            calculo.setExtras(horaExtra);
             cr.save(calculo);
         }
-
 
         return calculo;
     }
