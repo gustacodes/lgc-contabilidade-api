@@ -37,8 +37,7 @@ public class CalculoService {
 
         Duration cargaHoraria = Duration.ofHours(8);
         Duration horasTotais = Duration.ofHours(total.toHours()).plusMinutes(total.toMinutes() % 60);
-        String format = DurationFormatUtils.formatDuration(horasTotais.toMillis(), "HH:mm");
-        calculo.setHorasTotais(format);
+        calculo.setHorasTotais(horasTotais.toHours() + ":" + horasTotais.toMinutesPart());
 
         Duration totalExtra = horasTotais.minus(cargaHoraria);
 
