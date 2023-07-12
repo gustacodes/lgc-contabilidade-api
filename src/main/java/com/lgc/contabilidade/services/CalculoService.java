@@ -17,6 +17,7 @@ public class CalculoService {
     private CalculoRepository cr;
 
     Duration horasExtrasAcumuladas = Duration.ZERO;
+    Duration horasExtras = Duration.ZERO;
 
     public Iterable<Calculo> findAll() {
         return cr.findAll();
@@ -53,7 +54,12 @@ public class CalculoService {
 
         } else if (horasTotais.toHours() <= 7) {
 
-            Duration horasExtras = Duration.ofHours(horasTotais.toHours() - 7).minusMinutes(totalExtra.toMinutes() % 60);
+            if (horasTotais.toHours() == 7 && horasTotais.toMinutesPart() > 0) {
+                horasExtras = Duration.ofHours(7 - horasTotais.toHours()).minusMinutes(totalExtra.toMinutes() % 60);
+            } else {
+                horasExtras = Duration.ofHours(8 - horasTotais.toHours()).minusMinutes(totalExtra.toMinutes() % 60);
+            }
+
             horasExtrasAcumuladas = horasExtrasAcumuladas.minus(horasExtras);
             String horaExtra = horasExtras.toHours() + ":" + horasExtras.toMinutesPart();
             Calculo.horasExtrasSomadas = horasExtrasAcumuladas.toHours() + ":" + horasExtrasAcumuladas.toMinutesPart();
