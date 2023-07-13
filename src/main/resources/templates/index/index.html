@@ -12,7 +12,7 @@
     <table class="content-table">
         <thead>
 
-        <form th:action="@{/lgc/calculo}" th:object="${novoCalculo}" method="post">
+        <form th:action="@{/ac/calculo}" th:object="${novoCalculo}" method="post">
             <tr>
 
                 <th class="datetime-select">Data <br>
@@ -54,7 +54,7 @@
                   <td th:text="${calculo.extras}" style="background-color: #3CB371"></td>
               </div>
               <td>
-                  <form th:action="@{/lgc/calculo/{id}(id=${calculo.id})}" th:method="delete">
+                  <form th:action="@{/ac/calculo/{id}(id=${calculo.id})}" th:method="delete">
                   <input type="hidden" name="_method" value="delete" />
                   <button type="submit" id="submitButton" style="border: none; background: none; padding: 0;">
                       <img src="/img/remover.png" alt="Deletar" />

@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@RequestMapping("/lgc/calculo")
+@RequestMapping("/ac/calculo")
 public class CalculoController {
 
     @Autowired
@@ -35,13 +35,13 @@ public class CalculoController {
     @PostMapping
     public ModelAndView registro(@ModelAttribute("novoCalculo") Calculo calculo, String cargo) {
         calculos.add(cs.calculadora(calculo, cargo));
-        return new ModelAndView("redirect:/lgc/calculo");
+        return new ModelAndView("redirect:/ac/calculo");
     }
 
     @DeleteMapping("/{id}")
     public RedirectView deletar(@PathVariable Long id) {
         cs.delete(id);
-        return new RedirectView("/lgc/calculo");
+        return new RedirectView("/ac/calculo");
     }
 
 }
