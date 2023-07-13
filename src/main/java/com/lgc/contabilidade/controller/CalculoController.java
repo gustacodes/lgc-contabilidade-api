@@ -33,8 +33,8 @@ public class CalculoController {
     }
 
     @PostMapping
-    public ModelAndView registro(@ModelAttribute("novoCalculo") Calculo calculo) {
-        calculos.add(cs.registro(calculo));
+    public ModelAndView registro(@ModelAttribute("novoCalculo") Calculo calculo, String cargo) {
+        calculos.add(cs.calculadora(calculo, cargo));
         return new ModelAndView("redirect:/lgc/calculo");
     }
 

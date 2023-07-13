@@ -24,14 +24,14 @@ span {
 }
 
 .content-table {
-    width: 60% !important;
-    border-collapse: collapse;
-    margin: 30px 250px;
-    font-size: 0.9em;
-    min-width: 400px;
-    border-radius: 5px 5px 0 0;
-    overflow: hidden;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.30);
+     width: 60% !important;
+     border-collapse: collapse;
+     margin: 30px 250px;
+     font-size: 0.9em;
+     min-width: 400px;
+     border-radius: 5px 5px 0 0;
+     overflow: hidden;
+     box-shadow: 0 0 20px rgba(0, 0, 0, 0.30);
 }
 
 button {
@@ -61,7 +61,8 @@ button:hover {
 
 .content-table th,
 .content-table td {
-text-align: center;
+
+    text-align: center;
     color: #ffffff;
     padding: 12px 15px;
 }

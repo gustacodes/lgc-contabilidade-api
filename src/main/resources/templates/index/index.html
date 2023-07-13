@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
+
     <table class="content-table">
         <thead>
 
@@ -33,12 +34,12 @@
         </form>
 
         </thead>
-        
+
         <tbody>
+
         <tr th:if="${#lists.isEmpty(calculo)}">
             <td colspan="8">Nenhum registro.</td>
         </tr>
-
           <tr th:each="calculo : ${calculo}">
             <td th:utext="${calculo.data}"></td>
             <td th:text="${calculo.entrada}"></td>
@@ -61,8 +62,10 @@
               </form>
               </td>
           </tr>
+
            </tbody>
     </table>
+
     <span><strong>Total:</strong> [[${totalHora}]]</span>
 </body>
 </html>
