@@ -1,6 +1,7 @@
 package com.lgc.contabilidade.controller;
 
 import com.lgc.contabilidade.entities.Calculo;
+import com.lgc.contabilidade.entities.Funcionario;
 import com.lgc.contabilidade.services.CalculoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,7 +34,7 @@ public class CalculoController {
     }
 
     @PostMapping
-    public ModelAndView registro(@ModelAttribute("novoCalculo") Calculo calculo, String cargo) {
+    public ModelAndView registro(@ModelAttribute("novoCalculo") Calculo calculo, Funcionario cargo) {
         calculos.add(cs.calculadora(calculo, cargo));
         return new ModelAndView("redirect:/ac/calculo");
     }

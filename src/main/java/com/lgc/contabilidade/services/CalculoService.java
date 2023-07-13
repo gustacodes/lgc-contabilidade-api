@@ -1,6 +1,7 @@
 package com.lgc.contabilidade.services;
 
 import com.lgc.contabilidade.entities.Calculo;
+import com.lgc.contabilidade.entities.Funcionario;
 import com.lgc.contabilidade.repositories.CalculoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,7 @@ public class CalculoService {
         return cr.findAll();
     }
 
-    public Calculo calculadora(Calculo calculo, String cargo) {
+    public Calculo calculadora(Calculo calculo, Funcionario cargo) {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
         String horaExtra = "";
@@ -38,9 +39,7 @@ public class CalculoService {
 
         Duration cargaHoraria = Duration.ZERO;
 
-        cargo = "";
-
-        if (cargo.equalsIgnoreCase("Balconista")) {
+        if (cargo.getCargo().equalsIgnoreCase("Balconista")) {
 
             cargaHoraria = Duration.ofHours(7).plusMinutes(20);
 
@@ -60,12 +59,13 @@ public class CalculoService {
                 calculo.setExtras(horaExtra);
                 cr.save(calculo);
 
-            } else if (horasTotaisBalconista.toHours() <= 7 && horasTotaisBalconista.toMinutesPart() < 20) {
+
+            } else if (horasTotaisBalconista.toHours() <= 7) {
 
                 if (horasTotaisBalconista.toHours() == 7 && horasTotaisBalconista.toMinutesPart() < 20) {
-                    horasExtras = Duration.ofHours(7 - horasTotaisBalconista.toHours()).minusMinutes(totalExtraBalconista.toMinutes() % 60);
+                    horasExtras = Duration.ofHours(totalExtraBalconista.toHours()).minusMinutes(totalExtraBalconista.toMinutes() % 60);
                 } else {
-                    horasExtras = Duration.ofHours(7 - horasTotaisBalconista.toHours()).minusMinutes(totalExtraBalconista.toMinutes() % 60);
+                    horasExtras = Duration.ofHours(totalExtraBalconista.toHours()).minusMinutes(totalExtraBalconista.toMinutes() % 60);
                 }
 
                 horasExtrasAcumuladas = horasExtrasAcumuladas.minus(horasExtras);
