@@ -1,0 +1,106 @@
+body {
+    font-family: sans-serif;
+    background-color: #1e1e1e;
+}
+
+h1 {
+    font-family: sans-serif;
+    color: #fff;
+    text-align: center;
+}
+
+img {
+    width: 25px;
+    height: 25px;
+}
+
+span {
+    margin-left: 650px;
+    color: #ffffff;
+}
+
+.datetime-select {
+    text-align: center;
+    margin-right: 150px;
+}
+
+.datetime-select input {
+    margin: 10px;
+}
+
+.content-table {
+     width: 60% !important;
+     border-collapse: collapse;
+     margin: 30px 300px;
+     font-size: 0.9em;
+     min-width: 400px;
+     border-radius: 5px 5px 0 0;
+     overflow: hidden;
+     box-shadow: 0 0 20px rgba(0, 0, 0, 0.30);
+}
+
+button {
+    background-color: #009879;
+    color: #ffffff;
+    text-align: center;
+    font-weight: bold;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    border: none;
+    border-radius: 10px;
+    box-shadow: none; 
+    width: 150px;
+    height: 50px;
+}
+
+button:hover {
+    background-color: #02604d;
+    color: #ffffff;
+}
+
+.content-table thead tr {
+    background-color: #181818;
+    color: #ffffff;
+    text-align: center;
+    font-weight: bold;
+}
+
+.content-table th,
+.content-table td {
+
+    text-align: center;
+    color: #ffffff;
+    padding: 12px 15px;
+}
+
+.content-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.content-table tbody tr:nth-of-type(even) {
+    background-color: #181818;
+}
+
+.content-table tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+}
+
+.content-table tbody tr.active-row {
+    font-weight: bold;
+    color: #009879;
+}
+
+.datetime-select input[type="date"] {
+    background-color: #f3f3f3;
+    border: 1px solid #dddddd;
+    border-radius: 4px;
+    padding: 8px;
+    color: #000000;
+}
+
+.datetime-select input[type="time"] {
+    background-color: #f3f3f3;
+    border: 1px solid #dddddd;
+    border-radius: 4px;
+    padding: 8px;
+    color: #000000;
+}

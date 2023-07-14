@@ -17,14 +17,14 @@ import java.util.List;
 public class CalculoController {
 
     @Autowired
-    private CalculoService cs;
+    private CalculoService calculoService;
 
     private List<Calculo> calculos = new ArrayList<>();
 
     @GetMapping
     public ModelAndView findAll() {
 
-        Iterable<Calculo> calculos = cs.findAll();
+        Iterable<Calculo> calculos = calculoService.findAll();
 
         ModelAndView mv = new ModelAndView("index/index");
         mv.addObject("totalHora", Calculo.horasExtrasSomadas);
@@ -35,13 +35,13 @@ public class CalculoController {
 
     @PostMapping
     public ModelAndView registro(@ModelAttribute("novoCalculo") Calculo calculo, Funcionario cargo) {
-        calculos.add(cs.calculadora(calculo, cargo));
+        calculos.add(calculoService.calculadora(calculo, cargo));
         return new ModelAndView("redirect:/ac/calculo");
     }
 
     @DeleteMapping("/{id}")
     public RedirectView deletar(@PathVariable Long id) {
-        cs.delete(id);
+        calculoService.delete(id);
         return new RedirectView("/ac/calculo");
     }
 

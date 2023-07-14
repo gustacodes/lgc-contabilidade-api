@@ -38,6 +38,7 @@ public class CalculoService {
         Duration total = primeiroIntervalo.plus(segundoIntervalo);
 
         Duration cargaHoraria = Duration.ZERO;
+        cargo.setCargo("Gerente");
 
         if (cargo.getCargo().equalsIgnoreCase("Balconista")) {
 

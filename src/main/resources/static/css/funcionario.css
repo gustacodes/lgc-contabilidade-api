@@ -1,7 +1,28 @@
+:root{
+    --color-white: #fff;
+    --color-red: #e63636;
+    --color-dark1: #181818;
+    --color-dark2: #1e1e1e;
+    --color-purple1: #009879;
+    --color-purple2: indigo;
+}
+
+
 body {
-    /* Change your font family */
     font-family: sans-serif;
     background-color: #1e1e1e;
+}
+
+.box-select{
+    display: flex;
+    color: #ffffff;
+    gap: 1rem;
+}
+
+h1 {
+    font-family: sans-serif;
+    color: #fff;
+    text-align: center;
 }
 
 img {
@@ -12,6 +33,9 @@ img {
 span {
     margin-left: 650px;
     color: #ffffff;
+}
+label {
+    margin-right: 15px;
 }
 
 .datetime-select {
@@ -26,7 +50,7 @@ span {
 .content-table {
      width: 60% !important;
      border-collapse: collapse;
-     margin: 30px 250px;
+     margin: 30px 300px;
      font-size: 0.9em;
      min-width: 400px;
      border-radius: 5px 5px 0 0;
@@ -34,7 +58,36 @@ span {
      box-shadow: 0 0 20px rgba(0, 0, 0, 0.30);
 }
 
+.inputs, #submitButton {
+    background-color: red;
+    width: 80%;
+    border-radius: 100px;
+}
+
+.inputs{
+    margin-bottom: 5px;
+    padding: 8px 5px;
+    outline: none;
+    border-radius: 5px;
+    background-color: var(--color-dark1);
+    border: 2px solid var(--color-dark1);
+    color: var(--color-white);
+    width: 100%;
+    box-sizing: border-box;
+    transition: .3s;
+}
+
+.inputs:focus{
+    border-color: var(--color-purple1);
+}
+
+.button-container {
+    text-align: center;
+}
+
 button {
+    display: inline-block;
+    margin: 0 5px;
     background-color: #009879;
     color: #ffffff;
     text-align: center;
@@ -55,14 +108,12 @@ button:hover {
 .content-table thead tr {
     background-color: #181818;
     color: #ffffff;
-    text-align: left;
     font-weight: bold;
 }
 
 .content-table th,
 .content-table td {
-
-    text-align: center;
+    text-align:center;
     color: #ffffff;
     padding: 12px 15px;
 }

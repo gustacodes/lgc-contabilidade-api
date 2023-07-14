@@ -5,28 +5,84 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Funcionários</title>
-    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/funcionario.css">
+    <link rel="stylesheet" href="/css/modal.css">
+    <script src="/js/script.js"></script>
 </head>
 <body>
     <table class="content-table">
+    <h1>Funcionários</h1>
         <thead>
             <tr>
                 <th>Código</th>
                 <th>Nome</th>
                 <th>Cargo</th>
+                <th>Ação</th>
             </tr>
         </thead>
         
         <tbody>
         <tr th:if="${#lists.isEmpty(funcionario)}">
-            <td colspan="8">Nenhum funcionário.</td>
+            <td colspan="8" align="center">Nenhum funcionário.</td>
         </tr>
 
           <tr th:each="funcionario : ${funcionario}">
             <td th:text="${funcionario.codigo}"></td>
             <td th:text="${funcionario.nome}"></td>
             <td th:text="${funcionario.cargo}"></td>
+            <td>
+                <form th:action="@{/ac/funcionarios/{id}(id=${funcionario.id})}" th:method="delete">
+                <input type="hidden" name="_method" value="delete" />
+                <button type="submit" id="submitButton" style="border: none; background: none; padding: 0;">
+                    <img src="/img/remover.png" alt="Deletar" />
+                </button>
+                </form>
+            </td>
            </tbody>
     </table>
+
+        <div class="button-container">
+
+            <form th:action="@{/ac/calculo}" th:method="get">
+                <button id="open-modal" type="button" >CADASTRAR</button>
+                <button id="open-modal" type="submit">REGISTRAR</button>
+            </form>
+
+            <form th:action="@{/ac/funcionarios}" th:method="post">
+
+            <div id="fade" class="hide"></div>
+            <div id="modal" class="hide">
+                <h3 class="box-select">Cadastro</h3>
+                <div class="modal-header">
+                    <button id="close-modal" style="border: none; background: none; padding: 0;">
+                        <img src="/img/remover.png">
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <div>
+                        <input class="inputs required" name="codigo" type="text" id="codigo" placeholder="Código" >
+                    </div>
+
+                    <div>
+                        <input class="inputs required" name="nome" type="text" id="nome" placeholder="Nome">
+                    </div><br>
+                    <div class="box-select">
+                        <div>
+                            <input type="checkbox" id="m" value="BALCONISTA" name="opcao">
+                            <label for="m">Balconista</label>
+
+                            <input type="checkbox" id="m" value="OUTRO" name="opcao">
+                            <label for="m">Outro</label>
+                        </div>
+                    </div><br>
+                    <button id="open-modal" type="submit">ADICIONAR</button>
+                </div>
+            </div>
+            </form>
+
+        </div>
+
+
 </body>
 </html>

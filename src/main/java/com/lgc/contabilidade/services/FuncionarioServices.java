@@ -21,4 +21,8 @@ public class FuncionarioServices {
         return fr.findAll();
     }
 
+    public void deleteById(Long id) {
+        fr.deleteById(id);
+    }
+
 }
