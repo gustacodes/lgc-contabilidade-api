@@ -81,5 +81,11 @@
            </tbody>
     </table>
     <span><strong>Total:</strong> [[${totalHora}]]</span>
+        <form th:action="@{/ac/calculo/download-pdf}" th:method="get">
+            <div class="datetime-select">
+                <button type="submit">RELATÓRIO</button>
+            </div>
+        </form>
+
 </body>
 </html>

@@ -32,8 +32,6 @@ public class Calculo {
     private String saidaCasa;
     private String horasTotais;
     private String extras;
-    private String total;
     public static String horasExtrasSomadas;
-    private Funcionario funcionario;
 
 }

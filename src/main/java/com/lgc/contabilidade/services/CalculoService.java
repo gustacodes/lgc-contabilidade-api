@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Service
 public class CalculoService {
@@ -19,7 +20,7 @@ public class CalculoService {
     Duration horasExtrasAcumuladas = Duration.ZERO;
     Duration horasExtras = Duration.ZERO;
 
-    public Iterable<Calculo> findAll() {
+    public List<Calculo> findAll() {
         return cr.findAll();
     }
 
