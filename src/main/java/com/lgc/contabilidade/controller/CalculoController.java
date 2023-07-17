@@ -17,6 +17,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,34 +45,35 @@ public class CalculoController {
         Iterable<Calculo> calculos = calculoService.findAll();
 
         ModelAndView mv = new ModelAndView("index/calculadora");
-        mv.addObject("totalHora", Calculo.horasExtrasSomadas);
         mv.addObject("calculo", calculos);
 
         return mv;
     }
 
     @PostMapping("/busca")
-    public ModelAndView findByCodigo(@RequestParam("codigo") Long codigo) {
+    public ModelAndView findByCodigo(@RequestParam("codigo") Long codigo, HttpServletResponse response) throws IOException {
         ModelAndView mv = new ModelAndView("index/calculadora");
         code = codigo;
         Funcionario funcionario = funcionarioServices.findByCodigo(codigo);
+
         mv.addObject("funcionario", funcionario);
         mv.addObject("funcionarioobj", new Funcionario());
 
         return mv;
     }
 
-    @GetMapping("/download-pdf")
+    @GetMapping("/download-relatorio")
     public void downloadPdf(HttpServletRequest request, HttpServletResponse response) {
         Funcionario funcionario = funcionarioServices.findByCodigo(code);
         List<Calculo> calculos = calculoService.findAll();
         calculoService.gerarRelatorio(funcionario, calculos, request, response);
     }
 
-
     @PostMapping
-    public ModelAndView registro(@ModelAttribute("novoCalculo") Calculo calculo, Funcionario cargo) {
-        calculos.add(calculoService.calculadora(calculo, cargo));
+    public ModelAndView registro(@ModelAttribute("novoCalculo") Calculo calculo) {
+        Funcionario cargo = funcionarioServices.findByCodigo(code);
+        var funcionario = cargo;
+        calculos.add(calculoService.calculadora(calculo, funcionario));
         return new ModelAndView("redirect:/ac/calculo");
     }
 

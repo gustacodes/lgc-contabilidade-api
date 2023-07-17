@@ -45,7 +45,6 @@ public class CalculoService {
         Duration total = primeiroIntervalo.plus(segundoIntervalo);
 
         Duration cargaHoraria = Duration.ZERO;
-        cargo.setCargo("Gerente");
 
         if (cargo.getCargo().equalsIgnoreCase("Balconista")) {
 
@@ -137,13 +136,15 @@ public class CalculoService {
             response.addHeader("Content-Disposition", "inline; filename=" + "Relatorio " + funcionario.getNome().toUpperCase() + ".pdf");
             PdfWriter.getInstance(relatorio, response.getOutputStream());
             relatorio.open();
-            relatorio.add(new Paragraph("GABRIELA ALENCAR - CONTABILIDADE", fontCabecalho));
-            relatorio.add(new Paragraph("Registro de horas extras", fontCabecalho));
+            relatorio.add(new Paragraph("                     GABRIELA ALENCAR - CONTABILIDADE", fontCabecalho));
+            relatorio.add(new Paragraph("                         Registro de Horas Extras", fontCabecalho));
+            relatorio.add(new Paragraph(" "));
+            relatorio.add(new Paragraph("Funcionário(a): " + funcionario.getNome()));
+            relatorio.add(new Paragraph("Cargo: " + funcionario.getCargo() + "                        Jornada: " + ((funcionario.getCargo()).equalsIgnoreCase("Balconista") ? "7:20h" : "8:00h")));
             relatorio.add(new Paragraph(" "));
 
             PdfPTable tabela = new PdfPTable(7);
             tabela.setWidthPercentage(100);
-
 
             PdfPCell data =  new PdfPCell(new Paragraph("Data", font));
             data.setBackgroundColor(BaseColor.LIGHT_GRAY);
@@ -207,7 +208,12 @@ public class CalculoService {
             }
 
             relatorio.add(tabela);
+            relatorio.add(new Paragraph(" "));
+            relatorio.add(new Paragraph("Status: " + (Calculo.horasExtrasSomadas.contains("-") ? "Devendo" : "Extras á calcular")));
+            relatorio.add(new Paragraph("Total/Extras: " + Calculo.horasExtrasSomadas));
             relatorio.close();
+            Calculo.horasExtrasSomadas = "0:00";
+            cr.deleteAll();
 
         } catch (Exception e) {
             e.printStackTrace();

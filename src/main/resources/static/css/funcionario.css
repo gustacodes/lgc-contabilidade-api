@@ -32,7 +32,13 @@ img {
     height: 25px;
 }
 
-span {
+.im {
+    margin-left: 550px;
+    width: 45px;
+    height: 45px;
+}
+
+ span {
     margin-left: 650px;
     color: #ffffff;
 }

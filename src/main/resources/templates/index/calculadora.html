@@ -9,14 +9,23 @@
 </head>
 <body>
 
-        <form th:action="@{/ac/calculo/busca}" th:method="post">
-            <input class="in"  type="text" name="codigo" placeholder="Código"/>
-            <button class="btn" type="submit">Buscar</button>
+
+            <form th:action="@{/ac/calculo/busca}" th:method="post">
+                <input class="in"  type="text" name="codigo" placeholder="Código"/>
+                <button class="btn" type="submit">Buscar</button>
+            </form>
+            <div th:each="funcionario : ${funcionario}">
+                <h4>NOME: [[${funcionario.nome}]]</h4>
+                <h4>CARGO: [[${funcionario.cargo}]]</h4>
+            </div>
+
+        <form th:action="@{/ac/calculo/download-relatorio}" th:method="get">
+            <div class="datetime-select">
+                <button type="submit" style="border: none; background: none; padding: 0;">
+                    <img class="im" src="/img/pdf.png" alt="Relatório" />
+                </button>
+            </div>
         </form>
-        <div th:each="funcionario : ${funcionario}">
-            <h4>NOME: [[${funcionario.nome}]]</h4>
-            <h4>CARGO: [[${funcionario.cargo}]]</h4>
-        </div>
 
     <form th:action="@{/ac/calculo}" th:object="${novoCalculo}" method="post">
     <table class="content-table">
@@ -80,12 +89,6 @@
 
            </tbody>
     </table>
-    <span><strong>Total:</strong> [[${totalHora}]]</span>
-        <form th:action="@{/ac/calculo/download-pdf}" th:method="get">
-            <div class="datetime-select">
-                <button type="submit">RELATÓRIO</button>
-            </div>
-        </form>
 
 </body>
 </html>
