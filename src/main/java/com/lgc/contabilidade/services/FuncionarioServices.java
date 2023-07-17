@@ -25,4 +25,9 @@ public class FuncionarioServices {
         fr.deleteById(id);
     }
 
+    public Funcionario findByCodigo(Long codigo) {
+        Funcionario f = fr.findByCodigo(codigo);
+        return f;
+    }
+
 }

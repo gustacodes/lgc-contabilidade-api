@@ -23,7 +23,6 @@ public class Calculo {
     private Long id;
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDate data;
-    @NotBlank(message = "Entrada obrigatoria")
     private String entrada;
     @NotBlank
     private String saidaAlmoco;
@@ -35,5 +34,6 @@ public class Calculo {
     private String extras;
     private String total;
     public static String horasExtrasSomadas;
+    private Funcionario funcionario;
 
 }

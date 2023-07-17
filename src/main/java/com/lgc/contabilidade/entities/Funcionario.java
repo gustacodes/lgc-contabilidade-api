@@ -23,5 +23,5 @@ public class Funcionario {
     private Long id;
     private String nome;
     private String cargo;
-    private String codigo;
+    private Long codigo;
 }

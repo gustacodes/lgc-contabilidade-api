@@ -19,7 +19,9 @@ body {
     gap: 1rem;
 }
 
-h1 {
+h4 {
+    margin-left: 300px;
+    display: flex;
     font-family: sans-serif;
     color: #fff;
     text-align: center;
@@ -75,6 +77,29 @@ label {
     width: 100%;
     box-sizing: border-box;
     transition: .3s;
+}
+
+.in{
+    margin: 0px 0px 0px 300px;
+    text-align: center;
+    padding: 8px 5px;
+    outline: none;
+    border-radius: 5px;
+    background-color: var(--color-dark1);
+    border: 2px solid var(--color-dark1);
+    color: var(--color-white);
+    width: 8%;
+    box-sizing: border-box;
+    transition: .3s;
+}
+
+.in:focus {
+    border-color: var(--color-purple1);
+}
+
+.btn {
+    width: 60px;
+    height: 33px;
 }
 
 .inputs:focus{
