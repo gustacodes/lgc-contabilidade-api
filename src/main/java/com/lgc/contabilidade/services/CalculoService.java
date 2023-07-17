@@ -1,8 +1,14 @@
 package com.lgc.contabilidade.services;
 
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import com.lgc.contabilidade.entities.Calculo;
 import com.lgc.contabilidade.entities.Funcionario;
 import com.lgc.contabilidade.repositories.CalculoRepository;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -117,6 +123,97 @@ public class CalculoService {
         }
 
         return calculo;
+    }
+
+    public void gerarRelatorio(Funcionario funcionario, List<Calculo> calculos, HttpServletRequest request, HttpServletResponse response) {
+
+        Document relatorio = new Document();
+        Font font = new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD);
+        Font fontCabecalho = new Font(Font.FontFamily.COURIER, 12, Font.BOLD);
+
+        try {
+
+            response.setContentType("apllication/pdf");
+            response.addHeader("Content-Disposition", "inline; filename=" + "Relatorio " + funcionario.getNome().toUpperCase() + ".pdf");
+            PdfWriter.getInstance(relatorio, response.getOutputStream());
+            relatorio.open();
+            relatorio.add(new Paragraph("GABRIELA ALENCAR - CONTABILIDADE", fontCabecalho));
+            relatorio.add(new Paragraph("Registro de horas extras", fontCabecalho));
+            relatorio.add(new Paragraph(" "));
+
+            PdfPTable tabela = new PdfPTable(7);
+            tabela.setWidthPercentage(100);
+
+
+            PdfPCell data =  new PdfPCell(new Paragraph("Data", font));
+            data.setBackgroundColor(BaseColor.LIGHT_GRAY);
+            data.setBorderColor(BaseColor.DARK_GRAY);
+            data.setBorderWidth(0.5f);
+            data.setPadding(5f);
+            tabela.addCell(data).setHorizontalAlignment((Element.ALIGN_CENTER));
+
+            PdfPCell entrada =  new PdfPCell(new Paragraph("Entrada", font));
+            entrada.setBackgroundColor(BaseColor.LIGHT_GRAY);
+            entrada.setBorderColor(BaseColor.DARK_GRAY);
+            entrada.setBorderWidth(0.5f);
+            entrada.setPadding(5f);
+            tabela.addCell(entrada).setHorizontalAlignment((Element.ALIGN_CENTER));
+
+            PdfPCell saidaAlmoco =  new PdfPCell(new Paragraph("Saída/Int.", font));
+            saidaAlmoco.setBackgroundColor(BaseColor.LIGHT_GRAY);
+            saidaAlmoco.setBorderColor(BaseColor.DARK_GRAY);
+            saidaAlmoco.setBorderWidth(0.5f);
+            saidaAlmoco.setPadding(5f);
+            tabela.addCell(saidaAlmoco).setHorizontalAlignment((Element.ALIGN_CENTER));
+
+            PdfPCell voltaAlmoco =  new PdfPCell(new Paragraph("Volta/Int.", font));
+            voltaAlmoco.setBackgroundColor(BaseColor.LIGHT_GRAY);
+            voltaAlmoco.setBorderColor(BaseColor.DARK_GRAY);
+            voltaAlmoco.setBorderWidth(0.5f);
+            voltaAlmoco.setPadding(5f);
+            tabela.addCell(voltaAlmoco).setHorizontalAlignment((Element.ALIGN_CENTER));
+
+            PdfPCell saida =  new PdfPCell(new Paragraph("Saída", font));
+            saida.setBackgroundColor(BaseColor.LIGHT_GRAY);
+            saida.setBorderColor(BaseColor.DARK_GRAY);
+            saida.setBorderWidth(0.5f);
+            saida.setPadding(5f);
+            tabela.addCell(saida).setHorizontalAlignment((Element.ALIGN_CENTER));
+
+            PdfPCell totalDia =  new PdfPCell(new Paragraph("Total/Dia", font));
+            totalDia.setBackgroundColor(BaseColor.LIGHT_GRAY);
+            totalDia.setBorderColor(BaseColor.DARK_GRAY);
+            totalDia.setBorderWidth(0.5f);
+            totalDia.setPadding(5f);
+            tabela.addCell(totalDia).setHorizontalAlignment((Element.ALIGN_CENTER));
+
+            PdfPCell extrasDia =  new PdfPCell(new Paragraph("Extras/Dia", font));
+            extrasDia.setBackgroundColor(BaseColor.LIGHT_GRAY);
+            extrasDia.setBorderColor(BaseColor.DARK_GRAY);
+            extrasDia.setBorderWidth(0.5f);
+            extrasDia.setPadding(5f);
+            tabela.addCell(extrasDia).setHorizontalAlignment((Element.ALIGN_CENTER));
+
+            for(int i = 0; i < calculos.size(); i++) {
+
+                tabela.addCell(String.valueOf(calculos.get(i).getData()));
+                tabela.addCell(calculos.get(i).getEntrada());
+                tabela.addCell(calculos.get(i).getSaidaAlmoco());
+                tabela.addCell(calculos.get(i).getVoltaAlmoco());
+                tabela.addCell(calculos.get(i).getSaidaCasa());
+                tabela.addCell(calculos.get(i).getHorasTotais());
+                tabela.addCell(calculos.get(i).getExtras());
+
+            }
+
+            relatorio.add(tabela);
+            relatorio.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            relatorio.close();
+        }
+
     }
 
     public void delete(Long id) {
