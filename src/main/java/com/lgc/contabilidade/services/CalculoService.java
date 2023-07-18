@@ -118,7 +118,6 @@ public class CalculoService {
             }
 
             calculo.setExtras(horaExtra);
-            cr.save(calculo);
         }
 
         return calculo;
@@ -212,7 +211,6 @@ public class CalculoService {
             relatorio.add(new Paragraph("Status: " + (Calculo.horasExtrasSomadas.contains("-") ? "Devendo" : "Extras á calcular")));
             relatorio.add(new Paragraph("Total/Extras: " + Calculo.horasExtrasSomadas));
             relatorio.close();
-            Calculo.horasExtrasSomadas = "0:00";
             cr.deleteAll();
 
         } catch (Exception e) {

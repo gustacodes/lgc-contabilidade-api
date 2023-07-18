@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org", xmlns:dates="http://www.thymeleaf.org/extras/dates">
+<html xmlns:th="http://www.thymeleaf.org" , xmlns:dates="http://www.thymeleaf.org/extras/dates">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,86 +9,92 @@
 </head>
 <body>
 
+<form class="form-container" th:action="@{/ac/funcionarios}" th:method="get">
+    <div class="datetime-select">
+        <button type="submit" style="border: none; background: none; padding: 0;">
+            <img class="im" src="/img/funcionarios.png" alt="Funcionários"/>
+        </button>
+    </div>
+</form>
 
-            <form th:action="@{/ac/calculo/busca}" th:method="post">
-                <input class="in"  type="text" name="codigo" placeholder="Código"/>
-                <button class="btn" type="submit">Buscar</button>
-            </form>
-            <div th:each="funcionario : ${funcionario}">
-                <h4>NOME: [[${funcionario.nome}]]</h4>
-                <h4>CARGO: [[${funcionario.cargo}]]</h4>
-            </div>
+<form class="form-container" th:action="@{/ac/calculo/download-relatorio}" th:method="get">
+    <div class="datetime-select">
+        <button type="submit" style="border: none; background: none; padding: 0;">
+            <img class="im" src="/img/pdf.png" alt="Relatório"/>
+        </button>
+    </div>
+</form>
 
-        <form th:action="@{/ac/calculo/download-relatorio}" th:method="get">
-            <div class="datetime-select">
-                <button type="submit" style="border: none; background: none; padding: 0;">
-                    <img class="im" src="/img/pdf.png" alt="Relatório" />
-                </button>
-            </div>
-        </form>
+<form class="form-container" th:action="@{/ac/calculo/download-relatorio}" th:method="get">
+    <div class="datetime-select">
+        <button type="submit" style="border: none; background: none; padding: 0;">
+            <img class="im" src="/img/manual.png" alt="Relatório"/>
+        </button>
+    </div>
+</form>
 
-    <form th:action="@{/ac/calculo}" th:object="${novoCalculo}" method="post">
+<form th:action="@{/ac/calculo}" th:object="${novoCalculo}" method="post">
     <table class="content-table">
         <thead>
-            <tr>
-                <th class="datetime-select">Data <br>
-                    <input type="date" name="data" id="date-input">
-                </th>
-                <th class="datetime-select">Entrada <br><input type="time" name="entrada" id="time-input"></th>
-                <th class="datetime-select">Saída/Almoço <br><input type="time" name="saidaAlmoco" id="time-input"></th>
-                <th class="datetime-select">Volta/Almoço <br><input type="time" name="voltaAlmoco" id="time-input"></th>
-                <th class="datetime-select">Saída <br><input type="time" name="saidaCasa" id="time-input"><br></th>
-            </tr>
+        <tr>
+            <th class="datetime-select">Data <br>
+                <input type="date" name="data" id="date-input">
+            </th>
+            <th class="datetime-select">Entrada <br><input type="time" name="entrada" id="time-input"></th>
+            <th class="datetime-select">Saída/Almoço <br><input type="time" name="saidaAlmoco" id="time-input"></th>
+            <th class="datetime-select">Volta/Almoço <br><input type="time" name="voltaAlmoco" id="time-input"></th>
+            <th class="datetime-select">Saída <br><input type="time" name="saidaCasa" id="time-input"><br></th>
+        </tr>
         </thead>
     </table>
-        <div class="datetime-select">
-            <button type="submit">REGISTRAR</button>
+    <div class="datetime-select">
+        <button type="submit">REGISTRAR</button>
+    </div>
+</form>
+
+<table class="content-table">
+
+    <tbody>
+
+    <tr>
+        <th>Data</th>
+        <th>Entrada</th>
+        <th>Saída/Almoço</th>
+        <th>Volta/Almoço</th>
+        <th>Saída</th>
+        <th>Total/Dia</th>
+        <th>Extras/Dia</th>
+        <th>Ação</th>
+    </tr>
+
+    <tr th:if="${#lists.isEmpty(calculo)}">
+        <td colspan="8">Nenhum registro.</td>
+    </tr>
+    <tr th:each="calculo : ${calculo}">
+        <td th:utext="${calculo.data}"></td>
+        <td th:text="${calculo.entrada}"></td>
+        <td th:text="${calculo.saidaAlmoco}"></td>
+        <td th:text="${calculo.voltaAlmoco}"></td>
+        <td th:text="${calculo.saidaCasa}"></td>
+        <td th:text="${calculo.horasTotais}"></td>
+        <div th:if="${#strings.contains(calculo.extras, '-')}">
+            <td th:text="${calculo.extras}" style="background-color: #B22222"></td>
         </div>
-    </form>
+        <div th:unless="${#strings.contains(calculo.extras, '-')}">
+            <td th:text="${calculo.extras}" style="background-color: #3CB371"></td>
+        </div>
+        <td>
+            <form th:action="@{/ac/calculo/{id}(id=${calculo.id})}" th:method="delete">
+                <input type="hidden" name="_method" value="delete"/>
+                <button type="submit" id="submitButton" style="border: none; background: none; padding: 0;">
+                    <img src="/img/remover.png" alt="Deletar"/>
+                </button>
+            </form>
+        </td>
+    </tr>
 
-    <table class="content-table">
-
-        <tbody>
-
-        <tr>
-            <th>Data</th>
-            <th>Entrada</th>
-            <th>Saída/Almoço</th>
-            <th>Volta/Almoço</th>
-            <th>Saída</th>
-            <th>Total/Dia</th>
-            <th>Extras/Dia</th>
-            <th>Ação</th>
-        </tr>
-
-        <tr th:if="${#lists.isEmpty(calculo)}">
-            <td colspan="8">Nenhum registro.</td>
-        </tr>
-          <tr th:each="calculo : ${calculo}">
-            <td th:utext="${calculo.data}"></td>
-            <td th:text="${calculo.entrada}"></td>
-            <td th:text="${calculo.saidaAlmoco}"></td>
-            <td th:text="${calculo.voltaAlmoco}"></td>
-            <td th:text="${calculo.saidaCasa}"></td>
-            <td th:text="${calculo.horasTotais}"></td>
-              <div th:if="${#strings.contains(calculo.extras, '-')}">
-                 <td th:text="${calculo.extras}" style="background-color: #B22222"></td>
-              </div>
-              <div th:unless="${#strings.contains(calculo.extras, '-')}">
-                  <td th:text="${calculo.extras}" style="background-color: #3CB371"></td>
-              </div>
-              <td>
-                  <form th:action="@{/ac/calculo/{id}(id=${calculo.id})}" th:method="delete">
-                  <input type="hidden" name="_method" value="delete" />
-                  <button type="submit" id="submitButton" style="border: none; background: none; padding: 0;">
-                      <img src="/img/remover.png" alt="Deletar" />
-                  </button>
-              </form>
-              </td>
-          </tr>
-
-           </tbody>
-    </table>
+    </tbody>
+</table>
 
 </body>
 </html>

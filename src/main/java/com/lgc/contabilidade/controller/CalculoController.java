@@ -50,11 +50,18 @@ public class CalculoController {
         return mv;
     }
 
-    @PostMapping("/busca")
+    @GetMapping("/busca")
     public ModelAndView findByCodigo(@RequestParam("codigo") Long codigo, HttpServletResponse response) throws IOException {
         ModelAndView mv = new ModelAndView("index/calculadora");
         code = codigo;
         Funcionario funcionario = funcionarioServices.findByCodigo(codigo);
+
+        PrintWriter out = response.getWriter();
+
+        out.println("<script>");
+        out.println("var mensagem = 'Funcionário(a): " + funcionario.getNome() + "';");
+        out.println("alert(mensagem);");
+        out.println("</script>");
 
         mv.addObject("funcionario", funcionario);
         mv.addObject("funcionarioobj", new Funcionario());
