@@ -25,14 +25,6 @@
     </div>
 </form>
 
-<form class="form-container" th:action="@{/ac/calculo/download-relatorio}" th:method="get">
-    <div class="datetime-select">
-        <button type="submit" style="border: none; background: none; padding: 0;">
-            <img class="im" src="/img/manual.png" alt="Relatório"/>
-        </button>
-    </div>
-</form>
-
 <form th:action="@{/ac/calculo}" th:object="${novoCalculo}" method="post">
     <table class="content-table">
         <thead>

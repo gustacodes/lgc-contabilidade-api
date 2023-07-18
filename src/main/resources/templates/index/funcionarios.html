@@ -61,10 +61,10 @@
 
         <div id="fade" class="hide"></div>
         <div id="modal" class="hide">
-            <h3 class="box-select">Cadastro</h3>
+            <img src="/img/cadastro.png" style="width: 60px; height: 60px; display: block; margin-right: auto; margin-left: auto;" alt="Cadastro">
             <div class="modal-header">
-                <button id="close-modal" style="border: none; background: none; padding: 0;">
-                    <img src="/img/remover.png">
+                <button type="button" id="close-modal" style="border: none; background: none; padding: 0;">
+
                 </button>
             </div>
             <div class="modal-body">
@@ -79,16 +79,17 @@
                 <br>
                 <div class="box-select">
                     <div>
-                        <input type="checkbox" id="m" value="BALCONISTA" name="opcao">
-                        <label for="m">Balconista</label>
-
-                        <input type="checkbox" id="m" value="OUTRO" name="opcao">
-                        <label for="m">Outro</label>
-                    </div>
+                        <div>
+                            <select class="inputs required" name="opcao">
+                                <option value="Balconista">Balconista</option>
+                                <option value="Outro">Outro</option>
+                            </select>
+                        </div>
                 </div>
                 <br>
                 <button id="open-modal" type="submit">ADICIONAR</button>
             </div>
+        </div>
         </div>
     </form>
 

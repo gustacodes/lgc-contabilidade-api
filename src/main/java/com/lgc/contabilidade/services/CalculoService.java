@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -28,6 +29,10 @@ public class CalculoService {
 
     public List<Calculo> findAll() {
         return cr.findAll();
+    }
+
+    public Calculo save(Calculo calculo) {
+        return cr.save(calculo);
     }
 
     public Calculo calculadora(Calculo calculo, Funcionario cargo) {
@@ -64,7 +69,6 @@ public class CalculoService {
                 Calculo.horasExtrasSomadas = horasExtrasAcumuladas.toHours() + ":" + horasExtrasAcumuladas.toMinutesPart();
 
                 calculo.setExtras(horaExtra);
-                cr.save(calculo);
 
 
             } else if (horasTotaisBalconista.toHours() <= 7) {
@@ -80,7 +84,6 @@ public class CalculoService {
                 Calculo.horasExtrasSomadas = horasExtrasAcumuladas.toHours() + ":" + horasExtrasAcumuladas.toMinutesPart();
 
                 calculo.setExtras(horaExtra);
-                cr.save(calculo);
 
             }
 
@@ -101,7 +104,6 @@ public class CalculoService {
                 Calculo.horasExtrasSomadas = horasExtrasAcumuladas.toHours() + ":" + horasExtrasAcumuladas.toMinutesPart();
 
                 calculo.setExtras(horaExtra);
-                cr.save(calculo);
 
             } else if (horasTotais.toHours() <= 7) {
 
@@ -123,7 +125,7 @@ public class CalculoService {
         return calculo;
     }
 
-    public void gerarRelatorio(Funcionario funcionario, List<Calculo> calculos, HttpServletRequest request, HttpServletResponse response) {
+    public void gerarRelatorio(Funcionario funcionario, List<Calculo> calculos, HttpServletRequest request, HttpServletResponse response) throws BadElementException, IOException {
 
         Document relatorio = new Document();
         Font font = new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD);
@@ -145,56 +147,56 @@ public class CalculoService {
             PdfPTable tabela = new PdfPTable(7);
             tabela.setWidthPercentage(100);
 
-            PdfPCell data =  new PdfPCell(new Paragraph("Data", font));
+            PdfPCell data = new PdfPCell(new Paragraph("Data", font));
             data.setBackgroundColor(BaseColor.LIGHT_GRAY);
             data.setBorderColor(BaseColor.DARK_GRAY);
             data.setBorderWidth(0.5f);
             data.setPadding(5f);
             tabela.addCell(data).setHorizontalAlignment((Element.ALIGN_CENTER));
 
-            PdfPCell entrada =  new PdfPCell(new Paragraph("Entrada", font));
+            PdfPCell entrada = new PdfPCell(new Paragraph("Entrada", font));
             entrada.setBackgroundColor(BaseColor.LIGHT_GRAY);
             entrada.setBorderColor(BaseColor.DARK_GRAY);
             entrada.setBorderWidth(0.5f);
             entrada.setPadding(5f);
             tabela.addCell(entrada).setHorizontalAlignment((Element.ALIGN_CENTER));
 
-            PdfPCell saidaAlmoco =  new PdfPCell(new Paragraph("Saída/Int.", font));
+            PdfPCell saidaAlmoco = new PdfPCell(new Paragraph("Saída/Int.", font));
             saidaAlmoco.setBackgroundColor(BaseColor.LIGHT_GRAY);
             saidaAlmoco.setBorderColor(BaseColor.DARK_GRAY);
             saidaAlmoco.setBorderWidth(0.5f);
             saidaAlmoco.setPadding(5f);
             tabela.addCell(saidaAlmoco).setHorizontalAlignment((Element.ALIGN_CENTER));
 
-            PdfPCell voltaAlmoco =  new PdfPCell(new Paragraph("Volta/Int.", font));
+            PdfPCell voltaAlmoco = new PdfPCell(new Paragraph("Volta/Int.", font));
             voltaAlmoco.setBackgroundColor(BaseColor.LIGHT_GRAY);
             voltaAlmoco.setBorderColor(BaseColor.DARK_GRAY);
             voltaAlmoco.setBorderWidth(0.5f);
             voltaAlmoco.setPadding(5f);
             tabela.addCell(voltaAlmoco).setHorizontalAlignment((Element.ALIGN_CENTER));
 
-            PdfPCell saida =  new PdfPCell(new Paragraph("Saída", font));
+            PdfPCell saida = new PdfPCell(new Paragraph("Saída", font));
             saida.setBackgroundColor(BaseColor.LIGHT_GRAY);
             saida.setBorderColor(BaseColor.DARK_GRAY);
             saida.setBorderWidth(0.5f);
             saida.setPadding(5f);
             tabela.addCell(saida).setHorizontalAlignment((Element.ALIGN_CENTER));
 
-            PdfPCell totalDia =  new PdfPCell(new Paragraph("Total/Dia", font));
+            PdfPCell totalDia = new PdfPCell(new Paragraph("Total/Dia", font));
             totalDia.setBackgroundColor(BaseColor.LIGHT_GRAY);
             totalDia.setBorderColor(BaseColor.DARK_GRAY);
             totalDia.setBorderWidth(0.5f);
             totalDia.setPadding(5f);
             tabela.addCell(totalDia).setHorizontalAlignment((Element.ALIGN_CENTER));
 
-            PdfPCell extrasDia =  new PdfPCell(new Paragraph("Extras/Dia", font));
+            PdfPCell extrasDia = new PdfPCell(new Paragraph("Extras/Dia", font));
             extrasDia.setBackgroundColor(BaseColor.LIGHT_GRAY);
             extrasDia.setBorderColor(BaseColor.DARK_GRAY);
             extrasDia.setBorderWidth(0.5f);
             extrasDia.setPadding(5f);
             tabela.addCell(extrasDia).setHorizontalAlignment((Element.ALIGN_CENTER));
 
-            for(int i = 0; i < calculos.size(); i++) {
+            for (int i = 0; i < calculos.size(); i++) {
 
                 tabela.addCell(String.valueOf(calculos.get(i).getData()));
                 tabela.addCell(calculos.get(i).getEntrada());
@@ -211,6 +213,7 @@ public class CalculoService {
             relatorio.add(new Paragraph("Status: " + (Calculo.horasExtrasSomadas.contains("-") ? "Devendo" : "Extras á calcular")));
             relatorio.add(new Paragraph("Total/Extras: " + Calculo.horasExtrasSomadas));
             relatorio.close();
+            horasExtrasAcumuladas = Duration.ZERO;
             cr.deleteAll();
 
         } catch (Exception e) {

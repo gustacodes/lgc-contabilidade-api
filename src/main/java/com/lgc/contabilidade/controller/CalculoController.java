@@ -70,7 +70,7 @@ public class CalculoController {
     }
 
     @GetMapping("/download-relatorio")
-    public void downloadPdf(HttpServletRequest request, HttpServletResponse response) {
+    public void downloadPdf(HttpServletRequest request, HttpServletResponse response) throws BadElementException, IOException {
         Funcionario funcionario = funcionarioServices.findByCodigo(code);
         List<Calculo> calculos = calculoService.findAll();
         calculoService.gerarRelatorio(funcionario, calculos, request, response);
@@ -80,7 +80,8 @@ public class CalculoController {
     public ModelAndView registro(@ModelAttribute("novoCalculo") Calculo calculo) {
         Funcionario cargo = funcionarioServices.findByCodigo(code);
         var funcionario = cargo;
-        calculos.add(calculoService.calculadora(calculo, funcionario));
+        calculos.add(calculoService.save(calculoService.calculadora(calculo, funcionario)));
+
         return new ModelAndView("redirect:/ac/calculo");
     }
 
