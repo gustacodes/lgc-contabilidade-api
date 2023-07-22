@@ -78,6 +78,7 @@
         <td>
             <form th:action="@{/ac/calculo/{id}(id=${calculo.id})}" th:method="delete">
                 <input type="hidden" name="_method" value="delete"/>
+                <input type="hidden" name="extras" th:value="${calculo.extras}" />
                 <button type="submit" id="submitButton" style="border: none; background: none; padding: 0;">
                     <img src="/img/remover.png" alt="Deletar"/>
                 </button>

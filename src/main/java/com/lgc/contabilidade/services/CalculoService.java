@@ -24,7 +24,7 @@ public class CalculoService {
     @Autowired
     private CalculoRepository cr;
 
-    Duration horasExtrasAcumuladas = Duration.ZERO;
+    public static Duration horasExtrasAcumuladas = Duration.ZERO;
     Duration horasExtras = Duration.ZERO;
 
     public List<Calculo> findAll() {
@@ -108,9 +108,9 @@ public class CalculoService {
             } else if (horasTotais.toHours() <= 7) {
 
                 if (horasTotais.toHours() == 7 && horasTotais.toMinutesPart() > 0) {
-                    horasExtras = Duration.ofHours(7 - horasTotais.toHours()).minusMinutes(totalExtra.toMinutes() % 60);
+                    horasExtras = Duration.ofHours(horasTotais.toHours()).minusMinutes(totalExtra.toMinutes() % 60);
                 } else {
-                    horasExtras = Duration.ofHours(8 - horasTotais.toHours()).minusMinutes(totalExtra.toMinutes() % 60);
+                    horasExtras = Duration.ofHours(horasTotais.toHours()).minusMinutes(totalExtra.toMinutes() % 60);
                 }
 
                 horasExtrasAcumuladas = horasExtrasAcumuladas.minus(horasExtras);
@@ -119,8 +119,10 @@ public class CalculoService {
 
             }
 
+
             calculo.setExtras(horaExtra);
         }
+            System.out.println("METODO:" + horasExtrasAcumuladas.toHours() + ":" + horasExtrasAcumuladas.toMinutesPart());
 
         return calculo;
     }

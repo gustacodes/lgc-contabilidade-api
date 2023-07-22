@@ -19,8 +19,13 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.Duration;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.lgc.contabilidade.services.CalculoService.horasExtrasAcumuladas;
 
 @Controller
 @RequestMapping("/ac/calculo")
@@ -86,7 +91,27 @@ public class CalculoController {
     }
 
     @DeleteMapping("/{id}")
-    public RedirectView deletar(@PathVariable Long id) {
+    public RedirectView deletar(@PathVariable Long id, @RequestParam("extras") String extras) {
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("H:mm");
+        LocalTime entrada = LocalTime.now();
+
+        if(extras.contains("-")) {
+            DateTimeFormatter formata = DateTimeFormatter.ofPattern("-H:mm");
+            entrada = LocalTime.parse(extras, formata);
+            horasExtrasAcumuladas = horasExtrasAcumuladas.plusHours(entrada.getHour()).plusMinutes(entrada.getMinute());
+
+        } else if(extras.contains(":-")) {
+            DateTimeFormatter formata = DateTimeFormatter.ofPattern("H:-mm");
+            entrada = LocalTime.parse(extras, formata);
+            horasExtrasAcumuladas = horasExtrasAcumuladas.plusHours(entrada.getHour()).plusMinutes(entrada.getMinute());
+        } else {
+            entrada = LocalTime.parse(extras, formatter);
+            horasExtrasAcumuladas = horasExtrasAcumuladas.minusHours(entrada.getHour()).minusMinutes(entrada.getMinute());
+        }
+
+
+        System.out.println(horasExtrasAcumuladas.toHours() + ":" + horasExtrasAcumuladas.toMinutesPart());
         calculoService.delete(id);
         return new RedirectView("/ac/calculo");
     }
