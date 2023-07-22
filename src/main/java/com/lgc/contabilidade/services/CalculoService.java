@@ -122,7 +122,6 @@ public class CalculoService {
 
             calculo.setExtras(horaExtra);
         }
-            System.out.println("METODO:" + horasExtrasAcumuladas.toHours() + ":" + horasExtrasAcumuladas.toMinutesPart());
 
         return calculo;
     }
