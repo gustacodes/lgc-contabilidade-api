@@ -110,7 +110,6 @@ public class CalculoController {
             horasExtrasAcumuladas = horasExtrasAcumuladas.minusHours(entrada.getHour()).minusMinutes(entrada.getMinute());
         }
 
-
         System.out.println(horasExtrasAcumuladas.toHours() + ":" + horasExtrasAcumuladas.toMinutesPart());
         calculoService.delete(id);
         return new RedirectView("/ac/calculo");
