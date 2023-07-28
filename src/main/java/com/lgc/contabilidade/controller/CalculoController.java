@@ -95,6 +95,11 @@ public class CalculoController {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("H:mm");
         String horas = CalculoService.transformarHoraNegativaEmPositiva(extras);
+
+        if (horas.equalsIgnoreCase("0:0")) {
+            horas = "0:00";
+        }
+
         LocalTime entrada = LocalTime.parse(horas, formatter);
 
         if (extras.contains("-")) {
@@ -102,6 +107,11 @@ public class CalculoController {
             horasExtrasAcumuladas = horasExtrasAcumuladas.plusHours(entrada.getHour()).plusMinutes(entrada.getMinute());
 
         } else {
+
+            if (extras.equalsIgnoreCase("0:0")) {
+                extras = "0:00";
+            }
+
             entrada = LocalTime.parse(extras, formatter);
             horasExtrasAcumuladas = horasExtrasAcumuladas.minusHours(entrada.getHour()).minusMinutes(entrada.getMinute());
         }
