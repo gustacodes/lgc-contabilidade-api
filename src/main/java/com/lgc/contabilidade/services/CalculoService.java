@@ -107,7 +107,7 @@ public class CalculoService {
             } else if (horasTotais.toHours() <= 7) {
 
                 if (horasTotais.toHours() == 7 && horasTotais.toMinutesPart() > 0) {
-                    horasExtras = Duration.ofHours(horasTotais.toHours()).minusMinutes(totalExtra.toMinutes() % 60);
+                    horasExtras = Duration.ofHours(horasTotais.toHours() - 7).minusMinutes(totalExtra.toMinutes() % 60);
                 } else {
                     horasExtras = Duration.ofHours(horasTotais.toHours()).minusMinutes(totalExtra.toMinutes() % 60);
                 }
@@ -125,6 +125,7 @@ public class CalculoService {
     }
 
     public static String transformarHoraNegativaEmPositiva(String horaNegativa) {
+
         String[] partes = horaNegativa.split(":");
         int horas = Integer.parseInt(partes[0]);
         int minutos = Integer.parseInt(partes[1]);
