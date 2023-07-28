@@ -94,23 +94,18 @@ public class CalculoController {
     public RedirectView deletar(@PathVariable Long id, @RequestParam("extras") String extras) {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("H:mm");
-        LocalTime entrada = LocalTime.now();
+        String horas = CalculoService.transformarHoraNegativaEmPositiva(extras);
+        LocalTime entrada = LocalTime.parse(horas, formatter);
 
-        if(extras.contains("-")) {
-            DateTimeFormatter formata = DateTimeFormatter.ofPattern("-H:mm");
-            entrada = LocalTime.parse(extras, formata);
+        if (extras.contains("-")) {
+            DateTimeFormatter formata = DateTimeFormatter.ofPattern("H:mm");
             horasExtrasAcumuladas = horasExtrasAcumuladas.plusHours(entrada.getHour()).plusMinutes(entrada.getMinute());
 
-        } else if(extras.contains(":-")) {
-            DateTimeFormatter formata = DateTimeFormatter.ofPattern("H:-mm");
-            entrada = LocalTime.parse(extras, formata);
-            horasExtrasAcumuladas = horasExtrasAcumuladas.plusHours(entrada.getHour()).plusMinutes(entrada.getMinute());
         } else {
             entrada = LocalTime.parse(extras, formatter);
             horasExtrasAcumuladas = horasExtrasAcumuladas.minusHours(entrada.getHour()).minusMinutes(entrada.getMinute());
         }
 
-        System.out.println(horasExtrasAcumuladas.toHours() + ":" + horasExtrasAcumuladas.toMinutesPart());
         calculoService.delete(id);
         return new RedirectView("/ac/calculo");
     }

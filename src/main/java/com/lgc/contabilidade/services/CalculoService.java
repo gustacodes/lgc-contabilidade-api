@@ -70,7 +70,6 @@ public class CalculoService {
 
                 calculo.setExtras(horaExtra);
 
-
             } else if (horasTotaisBalconista.toHours() <= 7) {
 
                 if (horasTotaisBalconista.toHours() == 7 && horasTotaisBalconista.toMinutesPart() < 20) {
@@ -80,7 +79,7 @@ public class CalculoService {
                 }
 
                 horasExtrasAcumuladas = horasExtrasAcumuladas.minus(horasExtras);
-                horaExtra = "-" + horasExtras.toHours() + ":" + horasExtras.toMinutesPart();
+                horaExtra = horasExtras.toHours() + ":" + horasExtras.toMinutesPart();
                 Calculo.horasExtrasSomadas = horasExtrasAcumuladas.toHours() + ":" + horasExtrasAcumuladas.toMinutesPart();
 
                 calculo.setExtras(horaExtra);
@@ -119,11 +118,26 @@ public class CalculoService {
 
             }
 
-
             calculo.setExtras(horaExtra);
         }
 
         return calculo;
+    }
+
+    public static String transformarHoraNegativaEmPositiva(String horaNegativa) {
+        String[] partes = horaNegativa.split(":");
+        int horas = Integer.parseInt(partes[0]);
+        int minutos = Integer.parseInt(partes[1]);
+
+        if (horas < 0 || minutos < 0) {
+            int totalMinutos = Math.abs(horas) * 60 + Math.abs(minutos);
+            int horasPositivas = totalMinutos / 60;
+            int minutosPositivos = totalMinutos % 60;
+
+            return String.format("%d:%02d", horasPositivas, minutosPositivos);
+        }
+
+        return horaNegativa;
     }
 
     public void gerarRelatorio(Funcionario funcionario, List<Calculo> calculos, HttpServletRequest request, HttpServletResponse response) throws BadElementException, IOException {
