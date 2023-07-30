@@ -10,6 +10,7 @@ import com.lgc.contabilidade.services.CalculoService;
 import com.lgc.contabilidade.services.FuncionarioServices;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponseWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -95,12 +96,12 @@ public class CalculoController {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("H:mm");
         String horas = CalculoService.transformarHoraNegativaEmPositiva(extras);
+        LocalTime entrada = LocalTime.now();
 
         if (horas.equalsIgnoreCase("0:0")) {
             horas = "0:00";
+            entrada = LocalTime.parse(horas, formatter);
         }
-
-        LocalTime entrada = LocalTime.parse(horas, formatter);
 
         if (extras.contains("-")) {
             DateTimeFormatter formata = DateTimeFormatter.ofPattern("H:mm");
