@@ -32,7 +32,7 @@
         <td th:text="${funcionario.nome}"></td>
         <td th:text="${funcionario.cargo}"></td>
         <td>
-            <form th:action="@{/ac/calculo/busca}" th:method="get">
+            <form th:action="@{/gabriela/contabilidade/calculo/busca}" th:method="get">
                 <input type="hidden" name="codigo" th:value="${funcionario.codigo}"/>
                 <button type="submit" id="submitButton" style="border: none; background: none; padding: 0;">
                     <img src="/img/relogio.png" alt="Deletar"/>
@@ -40,7 +40,7 @@
             </form>
         </td>
         <td>
-            <form th:action="@{/ac/funcionarios/{id}(id=${funcionario.id})}" th:method="delete">
+            <form th:action="@{/gabriela/contabilidade/funcionarios/{id}(id=${funcionario.id})}" th:method="delete">
                 <input type="hidden" name="_method" value="delete"/>
                 <button type="submit" id="submitButton" style="border: none; background: none; padding: 0;">
                     <img src="/img/remover.png" alt="Deletar"/>
@@ -53,11 +53,11 @@
 
 <div class="button-container">
 
-    <form th:action="@{/ac/calculo}" th:method="get">
+    <form th:action="@{/gabriela/contabilidade/calculo}" th:method="get">
         <button id="open-modal" type="button">CADASTRAR</button>
     </form>
 
-    <form th:action="@{/ac/funcionarios}" th:method="post">
+    <form th:action="@{/gabriela/contabilidade/funcionarios}" th:method="post">
 
         <div id="fade" class="hide"></div>
         <div id="modal" class="hide">

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("/ac/funcionarios")
+@RequestMapping("/gabriela/contabilidade/funcionarios")
 public class FuncionarioController {
 
     @Autowired
@@ -33,13 +33,13 @@ public class FuncionarioController {
 
         funcionarioServices.save(funcionario);
         mv.addObject("funcionario", funcionarioServices.findAll());
-        return new ModelAndView("redirect:/ac/funcionarios");
+        return new ModelAndView("redirect:/gabriela/contabilidade/funcionarios");
     }
 
     @DeleteMapping("/{id}")
     public ModelAndView deleteById(@PathVariable Long id) {
         funcionarioServices.deleteById(id);
-        return new ModelAndView("redirect:/ac/funcionarios");
+        return new ModelAndView("redirect:/gabriela/contabilidade/funcionarios");
     }
 
 }

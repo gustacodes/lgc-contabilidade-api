@@ -29,7 +29,7 @@ import java.util.List;
 import static com.lgc.contabilidade.services.CalculoService.horasExtrasAcumuladas;
 
 @Controller
-@RequestMapping("/ac/calculo")
+@RequestMapping("/gabriela/contabilidade/calculo")
 public class CalculoController {
 
     @Autowired
@@ -88,7 +88,7 @@ public class CalculoController {
         var funcionario = cargo;
         calculos.add(calculoService.save(calculoService.calculadora(calculo, funcionario)));
 
-        return new ModelAndView("redirect:/ac/calculo");
+        return new ModelAndView("redirect:/gabriela/contabilidade/calculo");
     }
 
     @DeleteMapping("/{id}")
@@ -118,7 +118,7 @@ public class CalculoController {
         }
 
         calculoService.delete(id);
-        return new RedirectView("/ac/calculo");
+        return new RedirectView("/gabriela/contabilidade/calculo");
     }
 
 }

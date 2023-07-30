@@ -9,7 +9,7 @@
 </head>
 <body>
 
-<form class="form-container" th:action="@{/ac/funcionarios}" th:method="get">
+<form class="form-container" th:action="@{/gabriela/contabilidade/funcionarios}" th:method="get">
     <div class="datetime-select">
         <button type="submit" style="border: none; background: none; padding: 0;">
             <img class="im" src="/img/funcionarios.png" alt="Funcionários"/>
@@ -17,7 +17,7 @@
     </div>
 </form>
 
-<form class="form-container" th:action="@{/ac/calculo/download-relatorio}" th:method="get">
+<form class="form-container" th:action="@{/gabriela/contabilidade/calculo/download-relatorio}" th:method="get">
     <div class="datetime-select">
         <button type="submit" style="border: none; background: none; padding: 0;">
             <img class="im" src="/img/pdf.png" alt="Relatório"/>
@@ -25,7 +25,7 @@
     </div>
 </form>
 
-<form th:action="@{/ac/calculo}" th:object="${novoCalculo}" method="post">
+<form th:action="@{/gabriela/contabilidade/calculo}" th:object="${novoCalculo}" method="post">
     <table class="content-table">
         <thead>
         <tr>
@@ -76,7 +76,7 @@
             <td th:text="${calculo.extras}" style="background-color: #3CB371"></td>
         </div>
         <td>
-            <form th:action="@{/ac/calculo/{id}(id=${calculo.id})}" th:method="delete">
+            <form th:action="@{/gabriela/contabilidade/calculo/{id}(id=${calculo.id})}" th:method="delete">
                 <input type="hidden" name="_method" value="delete"/>
                 <input type="hidden" name="extras" th:value="${calculo.extras}" />
                 <button type="submit" id="submitButton" style="border: none; background: none; padding: 0;">
