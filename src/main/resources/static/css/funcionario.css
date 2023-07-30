@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300&display=swap');
+
 :root{
     --color-white: #fff;
     --color-red: #e63636;
@@ -7,9 +9,16 @@
     --color-purple2: indigo;
 }
 
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Outfit', sans-serif;
+}
+
 
 body {
-    font-family: sans-serif;
+
     background-color: #1e1e1e;
 }
 
@@ -22,7 +31,6 @@ body {
 h4 {
     margin-left: 300px;
     display: flex;
-    font-family: sans-serif;
     color: #fff;
     text-align: center;
 }
