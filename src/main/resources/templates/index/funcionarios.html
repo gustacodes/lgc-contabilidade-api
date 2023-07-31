@@ -23,11 +23,11 @@
     </thead>
 
     <tbody>
-    <tr th:if="${#lists.isEmpty(funcionario)}">
+    <tr th:if="${#lists.isEmpty(funcionarios)}">
         <td colspan="8" align="center">Nenhum funcionário.</td>
     </tr>
 
-    <tr th:each="funcionario : ${funcionario}">
+    <tr th:each="funcionario : ${funcionarios}">
         <td th:text="${funcionario.codigo}"></td>
         <td th:text="${funcionario.nome}"></td>
         <td th:text="${funcionario.cargo}"></td>
@@ -53,28 +53,29 @@
 
 <div class="button-container">
 
-    <form th:action="@{/gabriela/contabilidade/calculo}" th:method="get">
+    <form th:action="@{/gabriela/contabilidade/funcionarios/cadastro}" th:method="get">
         <button id="open-modal" type="button">CADASTRAR</button>
     </form>
 
-    <form th:action="@{/gabriela/contabilidade/funcionarios}" th:method="post">
 
-        <div id="fade" class="hide"></div>
-        <div id="modal" class="hide">
-            <img src="/img/cadastro.png" style="width: 60px; height: 60px; display: block; margin-right: auto; margin-left: auto;" alt="Cadastro">
-            <div class="modal-header">
-                <button type="button" id="close-modal" style="border: none; background: none; padding: 0;">
-
-                </button>
-            </div>
-            <div class="modal-body">
+    <div id="fade" class="hide"></div>
+    <div id="modal" class="hide">
+        <img src="/img/cadastro.png" style="width: 60px; height: 60px; display: block; margin-right: auto; margin-left: auto;" alt="Cadastro">
+        <div class="modal-header">
+            <button type="button" id="close-modal" style="border: none; background: none; padding: 0;">
+                
+            </button>
+        </div>
+        <div class="modal-body">
+                <form th:action="@{/gabriela/contabilidade/funcionarios/cadastro}" th:object="${funcionario}" th:method="post">
 
                 <div>
                     <input class="inputs required" name="codigo" type="text" id="codigo" placeholder="Código">
                 </div>
 
                 <div>
-                    <input class="inputs required" name="nome" type="text" id="nome" placeholder="Nome">
+                    <input class="inputs required" name="nome" type="text" id="nome" th:field="*{nome}" placeholder="Nome">
+                    <span th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}" class="error-message"></span>
                 </div>
                 <br>
                 <div class="box-select">
@@ -89,9 +90,9 @@
                 <br>
                 <button id="open-modal" type="submit">ADICIONAR</button>
             </div>
+        </form>
         </div>
         </div>
-    </form>
 
 </div>
 

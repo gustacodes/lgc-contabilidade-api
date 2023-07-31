@@ -1,7 +1,7 @@
 package com.lgc.contabilidade.controller;
-
 import com.lgc.contabilidade.entities.Funcionario;
 import com.lgc.contabilidade.services.FuncionarioServices;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -15,16 +15,16 @@ public class FuncionarioController {
     FuncionarioServices funcionarioServices;
 
     @GetMapping
-    public ModelAndView findAll() {
+    public ModelAndView home() {
         ModelAndView mv = new ModelAndView("index/funcionarios");
-        mv.addObject("funcionario", funcionarioServices.findAll());
+        mv.addObject("funcionarios", funcionarioServices.findAll());
+        mv.addObject("funcionario", new Funcionario());
         return mv;
     }
 
-    @PostMapping
+    @PostMapping("/cadastro")
     public ModelAndView save(Funcionario funcionario, @RequestParam("opcao") String opcaoSelecionada) {
-        ModelAndView mv = new ModelAndView("index/funcionarios");
-
+        
         if(opcaoSelecionada.isEmpty()) {
             funcionario.setCargo("Outro");
         } else {
@@ -32,8 +32,8 @@ public class FuncionarioController {
         }
 
         funcionarioServices.save(funcionario);
-        mv.addObject("funcionario", funcionarioServices.findAll());
         return new ModelAndView("redirect:/gabriela/contabilidade/funcionarios");
+        
     }
 
     @DeleteMapping("/{id}")
